@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>المنصة التعليمية — الحصص المباشرة والدروس المخزّنة</title>
+  <title>منصة نور التعليمية — الحصص المباشرة والدروس المخزّنة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
       --primary-dark: #1e3a8a;
       --primary-soft: #eff6ff;
       --accent: #0ea5e9;
+      --gold: #f59e0b;
       --success: #15803d;
       --success-soft: #dcfce7;
       --danger: #b91c1c;
@@ -39,8 +40,8 @@
 
     body {
       background:
-        radial-gradient(circle at 10% 0%, rgba(29, 78, 216, 0.08), transparent 40%),
-        radial-gradient(circle at 90% 10%, rgba(14, 165, 233, 0.08), transparent 40%),
+        radial-gradient(circle at 12% 8%, rgba(29, 78, 216, 0.09), transparent 42%),
+        radial-gradient(circle at 88% 12%, rgba(14, 165, 233, 0.09), transparent 42%),
         var(--bg);
       color: var(--text);
       line-height: 1.65;
@@ -50,7 +51,7 @@
     @keyframes fadeSlideUp {
       from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(12px);
       }
       to {
         opacity: 1;
@@ -67,10 +68,117 @@
       }
     }
 
+    @keyframes introGlow {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4);
+      }
+      50% {
+        transform: scale(1.04);
+        box-shadow: 0 0 35px rgba(245, 158, 11, 0.25);
+      }
+    }
+
+    @keyframes progressBar {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
     .animate-in {
       animation: fadeSlideUp 0.35s ease both;
     }
 
+    /* Intro Splash Screen */
+    .intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.24), transparent 45%),
+        radial-gradient(circle at 80% 75%, rgba(245, 158, 11, 0.18), transparent 45%),
+        linear-gradient(135deg, #090d16 0%, #0f172a 52%, #172554 100%);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+    }
+
+    .intro-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-card {
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 38px 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      animation: fadeSlideUp 0.5s ease both;
+    }
+
+    .intro-emblem {
+      width: 78px;
+      height: 78px;
+      margin: 0 auto 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      animation: introGlow 2.4s infinite ease-in-out;
+    }
+
+    .intro-sub {
+      color: #bae6fd;
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .intro-title {
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffffff 0%, #fde68a 60%, #7dd3fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .intro-desc {
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.96rem;
+      margin-bottom: 24px;
+    }
+
+    .intro-progress-track {
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .intro-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #38bdf8);
+      animation: progressBar 2.4s linear forwards;
+    }
+
+    /* Topbar */
     .topbar {
       background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(10px);
@@ -127,10 +235,6 @@
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     }
 
-    .card:hover {
-      border-color: #cbd5e1;
-    }
-
     .btn {
       display: inline-flex;
       align-items: center;
@@ -177,14 +281,22 @@
       border-color: #cbd5e1;
     }
 
+    .btn-gold {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #0f172a;
+      font-weight: 800;
+    }
+
     .btn-success {
       background: linear-gradient(135deg, var(--success), #16a34a);
       color: #fff;
       box-shadow: 0 4px 12px rgba(21, 128, 61, 0.22);
     }
 
-    .btn-success:hover:not(:disabled) {
-      transform: translateY(-1px);
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.24);
     }
 
     .btn-danger {
@@ -198,9 +310,338 @@
       border-radius: 9px;
     }
 
-    .login-box {
-      max-width: 440px;
-      margin: 42px auto;
+    /* Home Gateway */
+    .home-layout {
+      display: grid;
+      grid-template-columns: 1.02fr 1fr;
+      gap: 22px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .home-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .left-column-stack,
+    .right-column-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .auth-card {
+      border-radius: 20px;
+      padding: 26px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
+    }
+
+    .auth-mode-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--surface-alt);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .auth-mode-btn {
+      padding: 10px 12px;
+      border-radius: 9px;
+      border: 0;
+      background: transparent;
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-mode-btn.active {
+      background: linear-gradient(135deg, var(--primary), #2563eb);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+    }
+
+    /* Home Poster Carousel Card */
+    .home-poster-card {
+      border-radius: 20px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .home-poster-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .home-poster-badge {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .home-poster-counter {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .home-poster-frame {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      max-height: 500px;
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .home-poster-frame img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      display: block;
+      -webkit-user-drag: none;
+    }
+
+    .home-poster-caption {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .home-poster-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .home-poster-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .home-poster-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      border: 0;
+      background: #cbd5e1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .home-poster-dot.active {
+      width: 22px;
+      background: var(--primary);
+    }
+
+    .why-noor-card {
+      border-radius: 20px;
+      padding: 26px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 85% 15%, rgba(245, 158, 11, 0.24), transparent 45%),
+        radial-gradient(circle at 15% 85%, rgba(56, 189, 248, 0.24), transparent 45%),
+        linear-gradient(145deg, #0f172a 0%, #1e3a8a 60%, #0369a1 100%);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+    }
+
+    .why-noor-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #fde68a;
+      margin-bottom: 12px;
+    }
+
+    .why-noor-title {
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.35;
+      margin-bottom: 14px;
+    }
+
+    .why-points {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .why-point {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.94);
+    }
+
+    .why-point strong {
+      display: block;
+      color: #fef08a;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .why-closing {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      border-radius: 14px;
+      padding: 13px 15px;
+      font-weight: 800;
+      font-size: 0.94rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    .plans-card {
+      border-radius: 20px;
+      padding: 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .plan-box {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--surface-alt);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .plan-box:hover {
+      transform: translateY(-2px);
+      border-color: #93c5fd;
+    }
+
+    .plan-box.featured {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, #eff6ff 0%, #ffffff 100%);
+    }
+
+    .plan-name {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .plan-price {
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .plan-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* Payment Box */
+    .payment-box {
+      background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+    }
+
+    .payment-methods-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .payment-chip {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .whatsapp-proof-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #14532d;
+      font-size: 0.86rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .wa-phone-link {
+      color: #15803d;
+      font-weight: 900;
+      text-decoration: underline;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .activation-note {
+      margin-top: 12px;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background: var(--warning-soft);
+      border: 1px solid #fde68a;
+      color: var(--warning);
+      font-size: 0.84rem;
+      font-weight: 800;
     }
 
     .form-group {
@@ -215,7 +656,7 @@
       color: var(--text);
     }
 
-    input, select, textarea {
+    input, select {
       width: 100%;
       padding: 10px 13px;
       border: 1px solid var(--border);
@@ -226,10 +667,65 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.14);
+    }
+
+    /* Subject Tabs & Sub-panels */
+    .subject-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .subject-tab-btn {
+      padding: 9px 15px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-weight: 800;
+      font-size: 0.86rem;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .subject-tab-btn:hover {
+      color: var(--text);
+      border-color: #93c5fd;
+    }
+
+    .subject-tab-btn.active {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: #fff;
+      border-color: #1e3a8a;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+    }
+
+    .subject-status-bar {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .enrolled-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
     }
 
     /* Posters & Announcements Showcase */
@@ -287,7 +783,7 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
       min-height: 170px;
-      max-height: 220px;
+      max-height: 240px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -296,8 +792,8 @@
     .poster-media-box img {
       width: 100%;
       height: 100%;
-      max-height: 220px;
-      object-fit: cover;
+      max-height: 240px;
+      object-fit: contain;
       display: block;
     }
 
@@ -339,7 +835,6 @@
       background: #fff;
     }
 
-    /* Student Tabs */
     .tabs {
       display: flex;
       gap: 10px;
@@ -384,6 +879,16 @@
     .pill-active {
       background: var(--success-soft);
       color: var(--success);
+    }
+
+    .pill-free {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .pill-paid {
+      background: #fef3c7;
+      color: #b45309;
     }
 
     .pill-expired {
@@ -446,8 +951,8 @@
 
     .grid-2 {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
     }
 
     .table-wrap {
@@ -457,7 +962,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     th, td {
@@ -551,6 +1056,12 @@
       border: 1px solid #fecaca;
     }
 
+    .alert-success {
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid #bbf7d0;
+    }
+
     .alert-warn {
       background: var(--warning-soft);
       color: var(--warning);
@@ -564,9 +1075,27 @@
 </head>
 <body>
 
+  <!-- شاشة المقدمة الترحيبية Intro -->
+  <div class="intro-screen" id="introScreen">
+    <div class="intro-card">
+      <div class="intro-emblem">ن</div>
+      <div class="intro-sub">مرحباً بك في عالم التفوق</div>
+      <h1 class="intro-title">منصة نور التعليمية</h1>
+      <p class="intro-desc">
+        دخول مجاني وحصص تعريفية مجانية ودروس مسجلة من الصف الأول الابتدائي إلى الصف الثالث الإعدادي.
+      </p>
+      <div class="intro-progress-track">
+        <div class="intro-progress-fill"></div>
+      </div>
+      <button type="button" class="btn btn-gold" id="skipIntroBtn">
+        الانتقال إلى الصفحة الرئيسية
+      </button>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="brand">
-      <span>منصتي التعليمية</span>
+      <span>منصة نور التعليمية</span>
       <span class="brand-badge">من 1 ابتدائي إلى 3 إعدادي</span>
     </div>
     <div class="user-actions" id="topbarActions"></div>
@@ -577,34 +1106,223 @@
       تنبيه: المنصة تعمل حالياً ببيانات تجريبية محلية لأنك لم تضع بيانات مشروع Firebase في الكود بعد.
     </div>
 
-    <!-- 1. شاشة تسجيل الدخول -->
-    <section class="card login-box animate-in" id="loginView">
-      <h2 style="margin-bottom: 6px; font-weight: 900;">تسجيل الدخول</h2>
-      <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 18px;">
-        أدخل رقم الهاتف وكلمة المرور للوصول إلى حسابك (طالب أو إدارة).
-      </p>
-      <div class="alert alert-danger hidden" id="loginError"></div>
+    <!-- 1. الصفحة الرئيسية -->
+    <section id="loginView" class="home-layout animate-in">
+      <!-- العمود الأيمن: تسجيل الدخول / إنشاء حساب جديد + نظام تقليب البوسترات -->
+      <div class="left-column-stack">
+        <div class="auth-card">
+          <div class="auth-mode-tabs">
+            <button type="button" class="auth-mode-btn active" data-auth-mode="login" id="modeLoginBtn">
+              تسجيل الدخول
+            </button>
+            <button type="button" class="auth-mode-btn" data-auth-mode="register" id="modeRegisterBtn">
+              إنشاء حساب جديد
+            </button>
+          </div>
 
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginPhone">رقم الهاتف</label>
-          <input type="text" id="loginPhone" placeholder="مثال: 01012345678" required />
-        </div>
-        <div class="form-group">
-          <label for="loginPassword">كلمة المرور</label>
-          <input type="password" id="loginPassword" placeholder="••••••••" required />
-        </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
-      </form>
+          <div class="alert alert-danger hidden" id="loginError"></div>
+          <div class="alert alert-success hidden" id="registerSuccess"></div>
 
-      <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--muted);">
-        دخول الإدارة الافتراضي للتجربة: <strong>01000000000</strong> / كلمة المرور: <strong>admin123</strong>
+          <form id="loginForm">
+            <h3 style="margin-bottom: 6px; font-weight: 900; font-size: 1.25rem;">أهلاً بعودتك إلى منصة نور</h3>
+            <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 18px;">
+              الدخول مجاني؛ ادخل برقم هاتفك وكلمة المرور لتصفح الحصص المجانية والدروس المتاحة.
+            </p>
+            <div class="form-group">
+              <label for="loginPhone">رقم الهاتف</label>
+              <input type="text" id="loginPhone" placeholder="مثال: 01012345678" required />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">كلمة المرور</label>
+              <input type="password" id="loginPassword" placeholder="••••••••" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+              دخول مجاني إلى المنصة
+            </button>
+
+            <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--muted);">
+              دخول الإدارة الافتراضي للتجربة: <strong>01000000000</strong> / كلمة المرور: <strong>admin123</strong>
+            </div>
+          </form>
+
+          <form id="registerForm" class="hidden">
+            <h3 style="margin-bottom: 6px; font-weight: 900; font-size: 1.25rem;">إنشاء حساب طالب جديد (دخول مجاني)</h3>
+            <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 16px;">
+              سجّل حسابك مجاناً لتجربة الحصص المجانية؛ وتُفعّل الدروس المدفوعة بعد موافقة الإدارة واستلام التحويل.
+            </p>
+
+            <div class="form-group">
+              <label for="regName">الاسم</label>
+              <input type="text" id="regName" placeholder="الاسم الثلاثي للطالب" required />
+            </div>
+
+            <div class="grid-2" style="gap: 12px;">
+              <div class="form-group">
+                <label for="regStudentPhone">رقم الهاتف للطالب</label>
+                <input type="text" id="regStudentPhone" placeholder="01xxxxxxxxx" required />
+              </div>
+              <div class="form-group">
+                <label for="regPassword">كلمة المرور للدخول</label>
+                <input type="password" id="regPassword" placeholder="اختر كلمة مرور" required />
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap: 12px;">
+              <div class="form-group">
+                <label for="regFatherPhone">رقم هاتف الأب</label>
+                <input type="text" id="regFatherPhone" placeholder="01xxxxxxxxx" required />
+              </div>
+              <div class="form-group">
+                <label for="regMotherPhone">رقم هاتف الأم</label>
+                <input type="text" id="regMotherPhone" placeholder="01xxxxxxxxx" required />
+              </div>
+            </div>
+
+            <div class="grid-2" style="gap: 12px;">
+              <div class="form-group">
+                <label for="regGrade">الصف الدراسي</label>
+                <select id="regGrade" required></select>
+              </div>
+              <div class="form-group">
+                <label for="regSubject">المادة الدراسية</label>
+                <select id="regSubject" required></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="regAddress">العنوان</label>
+              <input type="text" id="regAddress" placeholder="المدينة / المركز / الشارع" required />
+            </div>
+
+            <div class="activation-note" style="margin-top: 0; margin-bottom: 14px;">
+              ملحوظة: الدخول مجاني لمشاهدة الحصص المجانية، ولا يتم تفعيل الاشتراك والدروس المدفوعة إلا بعد موافقة الإدارة بعد المراجعة واستلام التحويل.
+            </div>
+
+            <button type="submit" class="btn btn-success" style="width: 100%; padding: 12px;">
+              إنشاء الحساب الآن
+            </button>
+          </form>
+        </div>
+
+        <!-- نظام تقليب صور البوستر والإعلانات (لمس + تلقائي + أزرار) -->
+        <div class="home-poster-card" id="homePosterCard">
+          <div class="home-poster-top">
+            <span class="home-poster-badge" id="homePosterBadge">إعلان المنصة</span>
+            <span class="home-poster-counter" id="homePosterCounter">1 / 1</span>
+          </div>
+          <div class="home-poster-frame" id="homePosterFrame">
+            <img id="homePosterImg" src="./Gemini_Generated_Image_7i4m167i4m167i4m.jpg" alt="بوستر منصة نور التعليمية — الأستاذة أميرة عبد الحكيم" />
+          </div>
+          <div class="home-poster-caption" id="homePosterCaption">
+            الأستاذة / أميرة عبد الحكيم — معلمة اللغة العربية
+          </div>
+          <div class="home-poster-controls">
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn btn-outline btn-sm" id="homePrevPosterBtn">السابق</button>
+              <button type="button" class="btn btn-outline btn-sm" id="homeNextPosterBtn">التالي</button>
+            </div>
+            <div class="home-poster-dots" id="homePosterDots"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- العمود الأيسر: لماذا منصة نور + الباقات + خيارات الدفع -->
+      <div class="right-column-stack">
+        <aside class="why-noor-card">
+          <span class="why-noor-pill">منصة نور التعليمية</span>
+          <h2 class="why-noor-title">ليه منصة نور هي الخيار الأمثل؟!</h2>
+
+          <div class="why-points">
+            <div class="why-point">
+              <strong>مدرسون متخصصون في التأسيس والتدريس</strong>
+              شرح مبسّط ومادة علمية قوية تبني الفهم الصحيح من الأساس وتناسب كل مرحلة دراسية.
+            </div>
+            <div class="why-point">
+              <strong>نتأكد من فهمك قبل الانتقال لدرس جديد</strong>
+              المنصة لا تترك الطالب إلا إذا تأكدت أنه فاهم وعارف الدروس جيداً قبل الدخول في درس جديد.
+            </div>
+            <div class="why-point">
+              <strong>متابعة مستمرة مع ولي الأمر</strong>
+              تواصل ومتابعة حقيقية مع الأسرة لضمان التزام الطالب واستمرار تقدمه.
+            </div>
+            <div class="why-point">
+              <strong>تقارير دورية على موبايل ولي الأمر</strong>
+              تقارير ترسل إلى موبايل ولي الأمر عن مستوى الطالب، وإيه المطلوب منه، ونصائح لمستوى أفضل للطالب.
+            </div>
+          </div>
+
+          <div class="why-closing">
+            هنا مش بس منصة.. هنا التزام وتعليم بجد وحرص على الطالب.
+          </div>
+        </aside>
+
+        <div class="plans-card">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;">
+            <h3 style="font-weight: 900; font-size: 1.1rem;">باقات الاشتراك</h3>
+            <button type="button" class="btn btn-outline btn-sm" id="jumpToRegisterBtn">جرّب مجاناً وأنشئ حسابك</button>
+          </div>
+          <div class="plans-grid">
+            <div class="plan-box">
+              <div class="plan-name">الباقة الشهرية</div>
+              <div class="plan-price">180 ج.م / شهر</div>
+              <div class="plan-note">حصص مباشرة + الدروس المدفوعة والمخزّنة + متابعة وتقارير لولي الأمر.</div>
+            </div>
+            <div class="plan-box featured">
+              <div class="plan-name">باقة التأسيس والمتابعة</div>
+              <div class="plan-price">240 ج.م / شهر</div>
+              <div class="plan-note">تركيز إضافي على التأسيس والتأكد من استيعاب كل درس قبل الانتقال.</div>
+            </div>
+            <div class="plan-box">
+              <div class="plan-name">باقة الترم (3 أشهر)</div>
+              <div class="plan-price">480 ج.م / ترم</div>
+              <div class="plan-note">توفير أفضل واستمرارية كاملة طوال الفصل الدراسي.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- خيارات الدفع وواتساب وملحوظة التفعيل -->
+        <div class="payment-box">
+          <div style="font-weight: 900; font-size: 1rem;">خيارات الدفع والاشتراك</div>
+          <div class="payment-methods-row">
+            <div class="payment-chip">
+              <span>فودافون كاش:</span>
+              <strong id="homeVodafoneCash1">01003076076</strong>
+              <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="homeVodafoneCash1">نسخ</button>
+            </div>
+            <div class="payment-chip">
+              <span>فودافون كاش:</span>
+              <strong id="homeVodafoneCash2">01006317903</strong>
+              <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="homeVodafoneCash2">نسخ</button>
+            </div>
+            <div class="payment-chip">
+              <span>فودافون كاش:</span>
+              <strong id="homeVodafoneCash3">01061249258</strong>
+              <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="homeVodafoneCash3">نسخ</button>
+            </div>
+          </div>
+
+          <span style="display: block; margin-top: 8px; font-size: 0.82rem; font-weight: 700; color: var(--success);" id="homeCopyFeedback"></span>
+
+          <div class="whatsapp-proof-box">
+            <div>
+              يرجى إرسال صورة التحويل عبر واتساب على الرقم:
+              <a class="wa-phone-link" data-wa-link="home" href="https://wa.me/201099776670" target="_blank" rel="noopener noreferrer">01099776670</a>
+              مع إرسال <strong>اسم الطالب</strong> و<strong>الرقم الذي تم التحويل منه</strong>.
+            </div>
+            <a class="btn btn-whatsapp btn-sm" data-wa-link="home" href="https://wa.me/201099776670" target="_blank" rel="noopener noreferrer">
+              إرسال على واتساب
+            </a>
+          </div>
+
+          <div class="activation-note">
+            ملحوظة: الدخول مجاني لمشاهدة الحصص المجانية، ولا يتم تفعيل الاشتراك والدروس المدفوعة إلا بعد موافقة الإدارة بعد المراجعة واستلام التحويل.
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 2. واجهة الطالب المشترك -->
+    <!-- 2. واجهة الطالب -->
     <section id="studentView" class="hidden animate-in">
-      <!-- شريط البوسترات والإعلانات -->
       <div class="poster-hero" id="studentPosterBanner">
         <div>
           <span class="poster-tag" id="posterBadgeText">إعلان هام</span>
@@ -630,6 +1348,8 @@
         <div>
           <h2 id="studentGreeting" style="font-weight: 800;">مرحباً بك</h2>
           <div style="color: var(--muted); font-size: 0.9rem;" id="studentGradeLabel"></div>
+          <div style="color: var(--muted); font-size: 0.84rem; margin-top: 2px;" id="studentGuardianLabel"></div>
+          <div class="enrolled-chips" id="studentEnrolledSubjectsChips"></div>
         </div>
         <div style="text-align: left;">
           <span id="studentSubBadge" class="status-pill"></span>
@@ -637,13 +1357,72 @@
         </div>
       </div>
 
-      <div class="alert alert-danger hidden" id="expiredSubscriptionAlert">
-        انتهت فترة اشتراكك الحالية. يرجى التواصل مع الإدارة لتجديد الاشتراك ومتابعة الحصص المباشرة والدروس المخزّنة.
+      <!-- تقسيم حسب المادة للطالب وإضافة مادة أخرى لحسابه -->
+      <div class="card">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
+          <h3 style="font-weight: 900; font-size: 1.05rem;">المواد الدراسية</h3>
+          <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+            <select id="studentAddSubjectSelect" style="width: auto; min-width: 170px; padding: 7px 11px; font-size: 0.85rem;"></select>
+            <button type="button" class="btn btn-outline btn-sm" id="studentAddSubjectBtn">+ إضافة مادة لحسابي</button>
+          </div>
+        </div>
+
+        <div class="subject-tabs" id="studentSubjectTabs"></div>
+
+        <div class="subject-status-bar" id="studentSubjectStatusBar">
+          <div>
+            <strong id="activeSubjectNameLabel">اللغة العربية</strong>
+            <div style="font-size: 0.82rem; color: var(--muted);" id="activeSubjectSubNote"></div>
+          </div>
+          <span id="activeSubjectSubBadge" class="status-pill"></span>
+        </div>
+      </div>
+
+      <!-- صندوق طرق الدفع والتجديد داخل واجهة الطالب -->
+      <div class="payment-box" style="margin-bottom: 20px;">
+        <div style="font-weight: 800; font-size: 0.96rem;">تفعيل الدروس المدفوعة وتجديد الاشتراك — الدفع عن طريق فودافون كاش</div>
+        <div class="payment-methods-row">
+          <div class="payment-chip">
+            <span>فودافون كاش:</span>
+            <strong id="vodafoneCash1">01003076076</strong>
+            <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="vodafoneCash1">نسخ</button>
+          </div>
+          <div class="payment-chip">
+            <span>فودافون كاش:</span>
+            <strong id="vodafoneCash2">01006317903</strong>
+            <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="vodafoneCash2">نسخ</button>
+          </div>
+          <div class="payment-chip">
+            <span>فودافون كاش:</span>
+            <strong id="vodafoneCash3">01061249258</strong>
+            <button type="button" class="btn btn-outline btn-sm copy-pay-btn" data-copy-target="vodafoneCash3">نسخ</button>
+          </div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--success);" id="copyFeedback"></span>
+        </div>
+
+        <div class="whatsapp-proof-box">
+          <div>
+            يرجى إرسال صورة التحويل عبر واتساب على الرقم:
+            <a class="wa-phone-link" data-wa-link="student" href="https://wa.me/201099776670" target="_blank" rel="noopener noreferrer">01099776670</a>
+            مع إرسال <strong>اسم الطالب</strong> و<strong>الرقم الذي تم التحويل منه</strong>.
+          </div>
+          <a class="btn btn-whatsapp btn-sm" data-wa-link="student" href="https://wa.me/201099776670" target="_blank" rel="noopener noreferrer">
+            إرسال على واتساب
+          </a>
+        </div>
+
+        <div class="activation-note">
+          ملحوظة: يمكنك مشاهدة الحصص المجانية فوراً، ولا يتم تفعيل الحساب والدروس المدفوعة إلا بعد موافقة الإدارة بعد المراجعة واستلام التحويل.
+        </div>
+      </div>
+
+      <div class="alert alert-warn hidden" id="expiredSubscriptionAlert">
+        المادة المختارة حالياً في وضع الدخول المجاني: يمكنك مشاهدة الدروس المجانية، بينما تُفتح الدروس المدفوعة بعد موافقة الإدارة بعد المراجعة واستلام التحويل على أرقام فودافون كاش وإرسال صورة التحويل على واتساب 01099776670.
       </div>
 
       <div class="tabs">
         <button class="tab-btn active" data-tab="live" id="tabLiveBtn">الحصة المباشرة (Live)</button>
-        <button class="tab-btn" data-tab="lessons" id="tabLessonsBtn">الدروس المخزّنة</button>
+        <button class="tab-btn" data-tab="lessons" id="tabLessonsBtn">الدروس المخزّنة (مجانية ومدفوعة)</button>
       </div>
 
       <div class="card animate-in" id="studentLivePanel">
@@ -662,7 +1441,7 @@
       </div>
 
       <div class="card hidden animate-in" id="studentLessonsPanel">
-        <h3 style="font-weight: 800; margin-bottom: 14px;">مكتبة الدروس المخزّنة لصفك</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;" id="studentLessonsHeading">مكتبة الدروس المخزّنة</h3>
         <div class="lessons-grid" id="studentLessonsList"></div>
       </div>
     </section>
@@ -671,16 +1450,34 @@
     <section id="adminView" class="hidden animate-in">
       <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
         <div>
-          <h2 style="font-weight: 800;">لوحة تحكم المعلم / الإدارة</h2>
-          <p style="color: var(--muted); font-size: 0.9rem;">إدارة الحصص المباشرة، الدروس المخزّنة، البوسترات الإعلانية، واشتراكات الطلاب.</p>
+          <h2 style="font-weight: 800;">لوحة تحكم المعلم / الإدارة — منصة نور التعليمية</h2>
+          <p style="color: var(--muted); font-size: 0.9rem;">إدارة المواد، الحصص المباشرة، الدروس المخزّنة، البوسترات، واشتراكات الطلاب لكل مادة.</p>
         </div>
-        <div style="min-width: 220px;">
-          <label for="adminGradeFilter">تصفية حسب الصف الدراسي</label>
-          <select id="adminGradeFilter"></select>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <div style="min-width: 195px;">
+            <label for="adminGradeFilter">تصفية حسب الصف الدراسي</label>
+            <select id="adminGradeFilter"></select>
+          </div>
+          <div style="min-width: 195px;">
+            <label for="adminSubjectFilter">تصفية حسب المادة</label>
+            <select id="adminSubjectFilter"></select>
+          </div>
         </div>
       </div>
 
-      <!-- إضافة بوستر أو إعلان -->
+      <!-- إدارة المواد المتاحة -->
+      <div class="card">
+        <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة المواد الدراسية المتاحة</h3>
+        <form id="addSubjectForm" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 14px;">
+          <div style="flex: 1; min-width: 220px;">
+            <label for="newSubjectName">اسم مادة جديدة</label>
+            <input type="text" id="newSubjectName" placeholder="مثال: الرياضيات / اللغة الإنجليزية / العلوم" required />
+          </div>
+          <button type="submit" class="btn btn-primary">+ إضافة مادة</button>
+        </form>
+        <div class="enrolled-chips" id="adminSubjectsList"></div>
+      </div>
+
       <div class="card">
         <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة بوستر أو إعلان للطلاب</h3>
         <form id="addPosterForm">
@@ -691,13 +1488,13 @@
             </div>
             <div class="form-group">
               <label for="posterBadge">شارة الإعلان</label>
-              <input type="text" id="posterBadge" placeholder="مثال: مراجعة ليلة الامتحان / عرض خاص" value="إعلان هام" required />
+              <input type="text" id="posterBadge" placeholder="مثال: حصة مجانية للتعريف / مراجعة" value="إعلان هام" required />
             </div>
           </div>
           <div class="grid-2" style="gap: 12px;">
             <div class="form-group">
               <label for="posterTitle">عنوان البوستر / الإعلان</label>
-              <input type="text" id="posterTitle" placeholder="مثال: انطلاق مراجعات نصف العام أونلاين" required />
+              <input type="text" id="posterTitle" placeholder="مثال: حصص تعريفية مجانية قبل الاشتراك" required />
             </div>
             <div class="form-group">
               <label for="posterImageUrl">رابط صورة البوستر (اختياري)</label>
@@ -732,7 +1529,6 @@
         </div>
       </div>
 
-      <!-- إدارة اللايف للـ 8 صفوف -->
       <div class="card">
         <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة الحصص المباشرة (Live)</h3>
         <div class="table-wrap">
@@ -756,13 +1552,26 @@
         <div class="card">
           <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة درس مخزّن جديد</h3>
           <form id="addLessonForm">
+            <div class="grid-2" style="gap: 10px;">
+              <div class="form-group">
+                <label for="lessonGrade">الصف الدراسي</label>
+                <select id="lessonGrade" required></select>
+              </div>
+              <div class="form-group">
+                <label for="lessonSubject">المادة الدراسية</label>
+                <select id="lessonSubject" required></select>
+              </div>
+            </div>
             <div class="form-group">
-              <label for="lessonGrade">الصف الدراسي</label>
-              <select id="lessonGrade" required></select>
+              <label for="lessonAccessType">نوع الدرس</label>
+              <select id="lessonAccessType" required>
+                <option value="free">مجاني (متاح للجميع للتجربة)</option>
+                <option value="paid">مدفوع (للمشتركين بعد الموافقة)</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="lessonTitle">عنوان الدرس</label>
-              <input type="text" id="lessonTitle" placeholder="مثال: الوحدة الأولى - الدرس الأول" required />
+              <input type="text" id="lessonTitle" placeholder="مثال: حصة تعريفية مجانية - تأسيس النحو" required />
             </div>
             <div class="form-group">
               <label for="lessonVideoUrl">رابط الفيديو (يوتيوب أو MP4 أو رابط تضمين)</label>
@@ -773,19 +1582,31 @@
         </div>
 
         <div class="card">
-          <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة أو تفعيل اشتراك طالب</h3>
+          <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة أو تعديل اشتراك طالب</h3>
           <form id="addStudentForm">
             <div class="form-group">
-              <label for="studentName">اسم الطالب</label>
+              <label for="studentName">الاسم</label>
               <input type="text" id="studentName" placeholder="الاسم الثلاثي للطالب" required />
             </div>
-            <div class="form-group">
-              <label for="studentPhone">رقم الهاتف (لتسجيل الدخول)</label>
-              <input type="text" id="studentPhone" placeholder="01xxxxxxxxx" required />
+            <div class="grid-2" style="gap: 10px;">
+              <div class="form-group">
+                <label for="studentPhone">رقم الهاتف للطالب</label>
+                <input type="text" id="studentPhone" placeholder="01xxxxxxxxx" required />
+              </div>
+              <div class="form-group">
+                <label for="studentPassword">كلمة المرور</label>
+                <input type="text" id="studentPassword" placeholder="كلمة مرور للطالب" required />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="studentPassword">كلمة المرور</label>
-              <input type="text" id="studentPassword" placeholder="كلمة مرور للطالب" required />
+            <div class="grid-2" style="gap: 10px;">
+              <div class="form-group">
+                <label for="studentFatherPhone">رقم هاتف الأب</label>
+                <input type="text" id="studentFatherPhone" placeholder="01xxxxxxxxx" />
+              </div>
+              <div class="form-group">
+                <label for="studentMotherPhone">رقم هاتف الأم</label>
+                <input type="text" id="studentMotherPhone" placeholder="01xxxxxxxxx" />
+              </div>
             </div>
             <div class="grid-2" style="gap: 10px;">
               <div class="form-group">
@@ -793,11 +1614,19 @@
                 <select id="studentGradeSelect" required></select>
               </div>
               <div class="form-group">
-                <label for="studentExpiryDate">تاريخ انتهاء الاشتراك</label>
-                <input type="date" id="studentExpiryDate" required />
+                <label for="studentSubjectSelect">المادة المراد تفعيلها</label>
+                <select id="studentSubjectSelect" required></select>
               </div>
             </div>
-            <button type="submit" class="btn btn-success" style="width: 100%;">حفظ وتفعيل الاشتراك</button>
+            <div class="form-group">
+              <label for="studentExpiryDate">تاريخ انتهاء الاشتراك للمادة</label>
+              <input type="date" id="studentExpiryDate" required />
+            </div>
+            <div class="form-group">
+              <label for="studentAddress">العنوان</label>
+              <input type="text" id="studentAddress" placeholder="عنوان الطالب" />
+            </div>
+            <button type="submit" class="btn btn-success" style="width: 100%;">حفظ وتفعيل الاشتراك للمادة</button>
           </form>
         </div>
       </div>
@@ -809,9 +1638,11 @@
             <thead>
               <tr>
                 <th>الصف</th>
+                <th>المادة</th>
                 <th>عنوان الدرس</th>
+                <th>النوع</th>
                 <th>تاريخ الإضافة</th>
-                <th>إجراء</th>
+                <th>إجراءات</th>
               </tr>
             </thead>
             <tbody id="adminLessonsTableBody"></tbody>
@@ -820,17 +1651,18 @@
       </div>
 
       <div class="card">
-        <h3 style="font-weight: 800; margin-bottom: 14px;">الطلاب والاشتراكات</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">الطلاب واشتراكاتهم حسب المواد</h3>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>الاسم</th>
-                <th>رقم الهاتف</th>
+                <th>هاتف الطالب</th>
+                <th>هاتف الأب / الأم</th>
                 <th>الصف</th>
-                <th>ينتهي في</th>
-                <th>الحالة</th>
-                <th>إجراءات</th>
+                <th>العنوان</th>
+                <th>المواد وحالة التفعيل</th>
+                <th>إجراءات للمادة المحددة</th>
               </tr>
             </thead>
             <tbody id="adminStudentsTableBody"></tbody>
@@ -867,10 +1699,25 @@
       appId: "1:22198782613:web:43cb8993262151e3a7299c"
     };
 
+    const HOME_POSTERS_LIST = [
+      {
+        badge: "الآن على المنصة",
+        title: "الأستاذة / أميرة عبد الحكيم — معلمة اللغة العربية",
+        imageUrl: "./Gemini_Generated_Image_7i4m167i4m167i4m.jpg"
+      }
+    ];
+
+    const DEFAULT_SUBJECTS = [
+      { id: "arabic", name: "اللغة العربية" }
+    ];
+
+    const WHATSAPP_PROOF_PHONE = "01099776670";
+    const VODAFONE_CASH_NUMBERS = ["01003076076", "01006317903", "01061249258"];
+
     const ADMIN_CREDENTIALS = {
       phone: "01000000000",
       password: "admin123",
-      name: "إدارة المنصة"
+      name: "إدارة منصة نور"
     };
 
     const GRADES = [
@@ -896,18 +1743,76 @@
 
     const state = {
       session: null,
+      subjects: [...DEFAULT_SUBJECTS],
+      activeStudentSubjectId: "arabic",
       liveSessions: {},
       lessons: [],
       students: [],
       posters: [],
+      homePosterIndex: 0,
       activePosterIndex: 0
     };
 
-    const LOCAL_KEY = "edu_platform_8grades_v2";
+    const LOCAL_KEY = "noor_edu_platform_subjects_v9";
+    let homeAutoSlideTimer = null;
 
     function getDefaultDatePlusDays(days) {
       const d = new Date(Date.now() + days * 86400000);
       return d.toISOString().split("T")[0];
+    }
+
+    function getSubjectName(subjectId) {
+      return state.subjects.find(s => s.id === subjectId)?.name || "اللغة العربية";
+    }
+
+    function ensureStudentSubjectsModel(student) {
+      const primarySubject = student.subjectId || "arabic";
+      const subjectsMap = { ...(student.subjects || {}) };
+      if (!subjectsMap[primarySubject]) {
+        subjectsMap[primarySubject] = {
+          enrolled: true,
+          isActive: Boolean(student.isActive),
+          expiresAt: student.expiresAt || getDefaultDatePlusDays(30)
+        };
+      }
+      return {
+        ...student,
+        subjectId: primarySubject,
+        subjects: subjectsMap
+      };
+    }
+
+    function isSubjectSubscriptionValid(student, subjectId) {
+      if (!student) return false;
+      const normalized = ensureStudentSubjectsModel(student);
+      const sub = normalized.subjects[subjectId];
+      if (!sub || !sub.isActive || !sub.expiresAt) return false;
+      const today = new Date().toISOString().split("T")[0];
+      return sub.expiresAt >= today;
+    }
+
+    function canWatchLesson(lesson, student) {
+      if ((lesson.accessType || "paid") === "free") return true;
+      const lessonSubject = lesson.subjectId || "arabic";
+      return isSubjectSubscriptionValid(student, lessonSubject);
+    }
+
+    function buildWhatsAppUrl(student = null, subjectId = null) {
+      const cleanWa = WHATSAPP_PROOF_PHONE.replace(/\D/g, "");
+      const intlPhone = cleanWa.startsWith("20") ? cleanWa : `20${cleanWa.replace(/^0/, "")}`;
+      const subjLabel = subjectId ? ` - المادة: ${getSubjectName(subjectId)}` : "";
+      const text = student
+        ? `السلام عليكم، أرسل صورة تحويل فودافون كاش (${VODAFONE_CASH_NUMBERS.join(" / ")}) لتفعيل حساب الطالب: ${student.name}${subjLabel} - رقم هاتف الطالب: ${student.phone} - الرقم الذي تم التحويل منه: `
+        : `السلام عليكم، أرسل صورة تحويل فودافون كاش (${VODAFONE_CASH_NUMBERS.join(" / ")}) لتفعيل الحساب - اسم الطالب: ... - الرقم الذي تم التحويل منه: ...`;
+      return `https://wa.me/${intlPhone}?text=${encodeURIComponent(text)}`;
+    }
+
+    function refreshWhatsAppLinks() {
+      const studentUser = state.session?.role === "student" ? state.session.user : null;
+      const url = buildWhatsAppUrl(studentUser, studentUser ? state.activeStudentSubjectId : null);
+      document.querySelectorAll("[data-wa-link]").forEach(el => {
+        el.setAttribute("href", url);
+      });
     }
 
     function seedInitialData() {
@@ -922,19 +1827,160 @@
         };
       });
 
-      const posters = [
-        {
-          id: "poster_welcome",
-          gradeId: "ALL",
-          badge: "أهلاً بكم",
-          title: "مراجعات وشروحات متواصلة لجميع الصفوف",
-          description: "تابع حصصك المباشرة أولاً بأول وشاهد الدروس المسجلة بجودة واضحة من أي مكان.",
-          imageUrl: "",
-          linkUrl: ""
-        }
-      ];
+      const posters = HOME_POSTERS_LIST.map((item, i) => ({
+        id: `poster_home_${i}`,
+        gradeId: "ALL",
+        badge: item.badge || "إعلان المنصة",
+        title: item.title || "منصة نور التعليمية",
+        description: "دخول مجاني وحصص تعريفية مجانية مع متابعة وتقارير لأولياء الأمور.",
+        imageUrl: item.imageUrl || "",
+        linkUrl: ""
+      }));
 
-      return { liveSessions, students: [], lessons: [], posters };
+      return {
+        subjects: [...DEFAULT_SUBJECTS],
+        liveSessions,
+        students: [],
+        lessons: [],
+        posters
+      };
+    }
+
+    function getHomeSlides() {
+      const adminGeneralWithImages = state.posters.filter(p => p.gradeId === "ALL" && p.imageUrl);
+      if (adminGeneralWithImages.length > 0) {
+        return adminGeneralWithImages;
+      }
+      return HOME_POSTERS_LIST;
+    }
+
+    function goToHomeSlide(index, restartTimer = true) {
+      const slides = getHomeSlides();
+      if (!slides || slides.length === 0) return;
+      state.homePosterIndex = ((index % slides.length) + slides.length) % slides.length;
+      renderHomePosterCarousel();
+      if (restartTimer) {
+        startHomeAutoSlide();
+      }
+    }
+
+    function stopHomeAutoSlide() {
+      if (homeAutoSlideTimer) {
+        clearInterval(homeAutoSlideTimer);
+        homeAutoSlideTimer = null;
+      }
+    }
+
+    function startHomeAutoSlide() {
+      stopHomeAutoSlide();
+      const slides = getHomeSlides();
+      if (!slides || slides.length <= 1) return;
+      homeAutoSlideTimer = setInterval(() => {
+        const loginSection = document.getElementById("loginView");
+        const introEl = document.getElementById("introScreen");
+        const introVisible = introEl && !introEl.classList.contains("hidden") && !introEl.classList.contains("fade-out");
+        if (!loginSection || loginSection.classList.contains("hidden") || introVisible) return;
+        state.homePosterIndex = (state.homePosterIndex + 1) % slides.length;
+        renderHomePosterCarousel();
+      }, 5000);
+    }
+
+    function renderHomePosterCarousel() {
+      const slides = getHomeSlides();
+      if (slides.length === 0) return;
+      if (state.homePosterIndex >= slides.length) state.homePosterIndex = 0;
+      const current = slides[state.homePosterIndex];
+
+      document.getElementById("homePosterBadge").textContent = current.badge || "إعلان المنصة";
+      document.getElementById("homePosterCounter").textContent = `${state.homePosterIndex + 1} / ${slides.length}`;
+      const imgEl = document.getElementById("homePosterImg");
+      imgEl.src = current.imageUrl || "./Gemini_Generated_Image_7i4m167i4m167i4m.jpg";
+      imgEl.alt = current.title || "بوستر منصة نور التعليمية";
+      document.getElementById("homePosterCaption").textContent = current.title || "منصة نور التعليمية";
+
+      const dotsEl = document.getElementById("homePosterDots");
+      dotsEl.innerHTML = slides.map((_, idx) => `
+        <button type="button" class="home-poster-dot ${idx === state.homePosterIndex ? "active" : ""}" data-idx="${idx}" aria-label="إعلان ${idx + 1}"></button>
+      `).join("");
+
+      dotsEl.querySelectorAll(".home-poster-dot").forEach(dot => {
+        dot.addEventListener("click", () => {
+          goToHomeSlide(Number(dot.dataset.idx), true);
+        });
+      });
+
+      document.getElementById("homePrevPosterBtn").onclick = () => {
+        goToHomeSlide(state.homePosterIndex - 1, true);
+      };
+
+      document.getElementById("homeNextPosterBtn").onclick = () => {
+        goToHomeSlide(state.homePosterIndex + 1, true);
+      };
+    }
+
+    function initHomePosterInteractions() {
+      const frame = document.getElementById("homePosterFrame");
+      const card = document.getElementById("homePosterCard");
+      let touchStartX = 0;
+
+      if (frame) {
+        frame.addEventListener("touchstart", (e) => {
+          stopHomeAutoSlide();
+          touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        frame.addEventListener("touchend", (e) => {
+          const touchEndX = e.changedTouches[0].screenX;
+          const slides = getHomeSlides();
+          if (!slides || slides.length <= 1) return;
+          const deltaX = touchEndX - touchStartX;
+          if (deltaX > 45) {
+            goToHomeSlide(state.homePosterIndex + 1, true);
+          } else if (deltaX < -45) {
+            goToHomeSlide(state.homePosterIndex - 1, true);
+          } else {
+            startHomeAutoSlide();
+          }
+        }, { passive: true });
+      }
+
+      if (card) {
+        card.addEventListener("mouseenter", stopHomeAutoSlide);
+        card.addEventListener("mouseleave", startHomeAutoSlide);
+      }
+    }
+
+    function populateSubjectSelects() {
+      const regSubjectSelect = document.getElementById("regSubject");
+      const adminSubjectFilter = document.getElementById("adminSubjectFilter");
+      const lessonSubjectSelect = document.getElementById("lessonSubject");
+      const studentSubjectSelect = document.getElementById("studentSubjectSelect");
+      const studentAddSubjectSelect = document.getElementById("studentAddSubjectSelect");
+
+      const currentFilter = adminSubjectFilter?.value || "ALL";
+      const subjectOptions = state.subjects.map(s => `<option value="${s.id}">${s.name}</option>`).join("");
+
+      if (regSubjectSelect) regSubjectSelect.innerHTML = subjectOptions;
+      if (lessonSubjectSelect) lessonSubjectSelect.innerHTML = subjectOptions;
+      if (studentSubjectSelect) studentSubjectSelect.innerHTML = subjectOptions;
+      if (studentAddSubjectSelect) studentAddSubjectSelect.innerHTML = subjectOptions;
+
+      if (adminSubjectFilter) {
+        adminSubjectFilter.innerHTML = `<option value="ALL">كل المواد</option>` + subjectOptions;
+        adminSubjectFilter.value = [...state.subjects.map(s => s.id), "ALL"].includes(currentFilter) ? currentFilter : "ALL";
+      }
+    }
+
+    function saveLocal() {
+      if (!isFirebaseConfigured) {
+        localStorage.setItem(LOCAL_KEY, JSON.stringify({
+          subjects: state.subjects,
+          liveSessions: state.liveSessions,
+          students: state.students,
+          lessons: state.lessons,
+          posters: state.posters
+        }));
+      }
     }
 
     async function loadAllData() {
@@ -942,20 +1988,32 @@
         const saved = localStorage.getItem(LOCAL_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
+          state.subjects = parsed.subjects && parsed.subjects.length > 0 ? parsed.subjects : [...DEFAULT_SUBJECTS];
           state.liveSessions = parsed.liveSessions || {};
-          state.students = parsed.students || [];
-          state.lessons = parsed.lessons || [];
+          state.students = (parsed.students || []).map(ensureStudentSubjectsModel);
+          state.lessons = (parsed.lessons || []).map(l => ({ ...l, subjectId: l.subjectId || "arabic" }));
           state.posters = parsed.posters || [];
+          populateSubjectSelects();
+          renderHomePosterCarousel();
+          startHomeAutoSlide();
           return;
         }
         const seeded = seedInitialData();
+        state.subjects = seeded.subjects;
         state.liveSessions = seeded.liveSessions;
         state.students = seeded.students;
         state.lessons = seeded.lessons;
         state.posters = seeded.posters;
         saveLocal();
+        populateSubjectSelects();
+        renderHomePosterCarousel();
+        startHomeAutoSlide();
         return;
       }
+
+      const subjectsSnap = await getDocs(collection(db, "subjects"));
+      const loadedSubjects = subjectsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      state.subjects = loadedSubjects.length > 0 ? loadedSubjects : [...DEFAULT_SUBJECTS];
 
       const liveSnap = await getDocs(collection(db, "live_sessions"));
       const liveMap = {};
@@ -974,27 +2032,47 @@
       state.liveSessions = liveMap;
 
       const studentsSnap = await getDocs(collection(db, "students"));
-      state.students = studentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      state.students = studentsSnap.docs.map(d => ensureStudentSubjectsModel({ id: d.id, ...d.data() }));
 
       const lessonsSnap = await getDocs(collection(db, "recorded_lessons"));
-      state.lessons = lessonsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+      state.lessons = lessonsSnap.docs.map(d => ({ subjectId: "arabic", ...d.data(), id: d.id }));
 
       const postersSnap = await getDocs(collection(db, "posters"));
       state.posters = postersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
       if (state.posters.length === 0) {
         state.posters = seedInitialData().posters;
       }
+      populateSubjectSelects();
+      renderHomePosterCarousel();
+      startHomeAutoSlide();
     }
 
-    function saveLocal() {
-      if (!isFirebaseConfigured) {
-        localStorage.setItem(LOCAL_KEY, JSON.stringify({
-          liveSessions: state.liveSessions,
-          students: state.students,
-          lessons: state.lessons,
-          posters: state.posters
-        }));
+    async function addSubject(name) {
+      const cleanName = name.trim();
+      if (!cleanName) return;
+      const id = "subj_" + Date.now();
+      const item = { id, name: cleanName };
+      state.subjects.push(item);
+      if (isFirebaseConfigured) {
+        await setDoc(doc(db, "subjects", id), item);
+      } else {
+        saveLocal();
       }
+      populateSubjectSelects();
+    }
+
+    async function removeSubject(id) {
+      if (id === "arabic" || state.subjects.length <= 1) return;
+      state.subjects = state.subjects.filter(s => s.id !== id);
+      if (state.activeStudentSubjectId === id) {
+        state.activeStudentSubjectId = state.subjects[0]?.id || "arabic";
+      }
+      if (isFirebaseConfigured) {
+        await deleteDoc(doc(db, "subjects", id));
+      } else {
+        saveLocal();
+      }
+      populateSubjectSelects();
     }
 
     async function saveLiveSession(gradeId, payload) {
@@ -1008,10 +2086,21 @@
 
     async function addLesson(payload) {
       const id = "lesson_" + Date.now();
-      const item = { id, ...payload };
+      const item = { id, subjectId: payload.subjectId || "arabic", accessType: payload.accessType || "paid", ...payload };
       state.lessons.unshift(item);
       if (isFirebaseConfigured) {
         await setDoc(doc(db, "recorded_lessons", id), item);
+      } else {
+        saveLocal();
+      }
+    }
+
+    async function toggleLessonAccessType(id) {
+      const lesson = state.lessons.find(l => l.id === id);
+      if (!lesson) return;
+      lesson.accessType = lesson.accessType === "free" ? "paid" : "free";
+      if (isFirebaseConfigured) {
+        await updateDoc(doc(db, "recorded_lessons", id), { accessType: lesson.accessType });
       } else {
         saveLocal();
       }
@@ -1031,34 +2120,59 @@
       const item = { id, ...payload };
       state.posters.unshift(item);
       state.activePosterIndex = 0;
+      state.homePosterIndex = 0;
       if (isFirebaseConfigured) {
         await setDoc(doc(db, "posters", id), item);
       } else {
         saveLocal();
       }
+      renderHomePosterCarousel();
+      startHomeAutoSlide();
     }
 
     async function removePoster(id) {
       state.posters = state.posters.filter(p => p.id !== id);
       state.activePosterIndex = 0;
+      state.homePosterIndex = 0;
       if (isFirebaseConfigured) {
         await deleteDoc(doc(db, "posters", id));
       } else {
         saveLocal();
       }
+      renderHomePosterCarousel();
+      startHomeAutoSlide();
     }
 
-    async function upsertStudent(payload) {
+    async function upsertStudent(payload, isSelfRegistration = false) {
       const cleanPhone = payload.phone.trim();
+      const rawExisting = state.students.find(s => s.phone === cleanPhone);
+      const existing = rawExisting ? ensureStudentSubjectsModel(rawExisting) : null;
+      const subjectId = payload.subjectId || existing?.subjectId || "arabic";
+      const expiry = payload.expiresAt || existing?.subjects?.[subjectId]?.expiresAt || getDefaultDatePlusDays(30);
+
+      const subjectsMap = { ...(existing?.subjects || {}) };
+      subjectsMap[subjectId] = {
+        enrolled: true,
+        isActive: isSelfRegistration ? Boolean(subjectsMap[subjectId]?.isActive) : true,
+        expiresAt: expiry
+      };
+
       const studentObj = {
         id: cleanPhone,
         name: payload.name.trim(),
         phone: cleanPhone,
         password: payload.password,
+        fatherPhone: (payload.fatherPhone || "").trim(),
+        motherPhone: (payload.motherPhone || "").trim(),
         gradeId: payload.gradeId,
-        expiresAt: payload.expiresAt,
-        isActive: true
+        subjectId: existing?.subjectId || subjectId,
+        subjects: subjectsMap,
+        address: (payload.address || "").trim(),
+        expiresAt: expiry,
+        isActive: Object.values(subjectsMap).some(s => s.isActive),
+        createdAt: existing?.createdAt || new Date().toISOString().split("T")[0]
       };
+
       const idx = state.students.findIndex(s => s.phone === cleanPhone);
       if (idx >= 0) state.students[idx] = studentObj;
       else state.students.unshift(studentObj);
@@ -1068,33 +2182,82 @@
       } else {
         saveLocal();
       }
+      return studentObj;
     }
 
-    async function toggleStudentActive(phone) {
-      const student = state.students.find(s => s.phone === phone);
-      if (!student) return;
-      student.isActive = !student.isActive;
+    async function enrollStudentInSubject(phone, subjectId) {
+      const raw = state.students.find(s => s.phone === phone);
+      if (!raw) return null;
+      const student = ensureStudentSubjectsModel(raw);
+      if (!student.subjects[subjectId]) {
+        student.subjects[subjectId] = {
+          enrolled: true,
+          isActive: false,
+          expiresAt: getDefaultDatePlusDays(30)
+        };
+      } else {
+        student.subjects[subjectId].enrolled = true;
+      }
+      const idx = state.students.findIndex(s => s.phone === phone);
+      state.students[idx] = student;
       if (isFirebaseConfigured) {
-        await updateDoc(doc(db, "students", phone), { isActive: student.isActive });
+        await setDoc(doc(db, "students", phone), student);
+      } else {
+        saveLocal();
+      }
+      return student;
+    }
+
+    async function toggleStudentSubjectActive(phone, subjectId) {
+      const raw = state.students.find(s => s.phone === phone);
+      if (!raw) return;
+      const student = ensureStudentSubjectsModel(raw);
+      const currentSub = student.subjects[subjectId] || {
+        enrolled: true,
+        isActive: false,
+        expiresAt: getDefaultDatePlusDays(30)
+      };
+      currentSub.enrolled = true;
+      currentSub.isActive = !currentSub.isActive;
+      if (currentSub.isActive && !currentSub.expiresAt) {
+        currentSub.expiresAt = getDefaultDatePlusDays(30);
+      }
+      student.subjects[subjectId] = currentSub;
+      student.isActive = Object.values(student.subjects).some(s => s.isActive);
+
+      const idx = state.students.findIndex(s => s.phone === phone);
+      state.students[idx] = student;
+      if (isFirebaseConfigured) {
+        await setDoc(doc(db, "students", phone), student);
       } else {
         saveLocal();
       }
     }
 
-    async function renewStudentMonth(phone) {
-      const student = state.students.find(s => s.phone === phone);
-      if (!student) return;
-      const baseDate = student.expiresAt && new Date(student.expiresAt) > new Date()
-        ? new Date(student.expiresAt)
+    async function renewStudentSubjectMonth(phone, subjectId) {
+      const raw = state.students.find(s => s.phone === phone);
+      if (!raw) return;
+      const student = ensureStudentSubjectsModel(raw);
+      const currentSub = student.subjects[subjectId] || {
+        enrolled: true,
+        isActive: true,
+        expiresAt: getDefaultDatePlusDays(30)
+      };
+      const baseDate = currentSub.expiresAt && new Date(currentSub.expiresAt) > new Date()
+        ? new Date(currentSub.expiresAt)
         : new Date();
       baseDate.setDate(baseDate.getDate() + 30);
-      student.expiresAt = baseDate.toISOString().split("T")[0];
+      currentSub.enrolled = true;
+      currentSub.isActive = true;
+      currentSub.expiresAt = baseDate.toISOString().split("T")[0];
+      student.subjects[subjectId] = currentSub;
+      student.expiresAt = currentSub.expiresAt;
       student.isActive = true;
+
+      const idx = state.students.findIndex(s => s.phone === phone);
+      state.students[idx] = student;
       if (isFirebaseConfigured) {
-        await updateDoc(doc(db, "students", phone), {
-          expiresAt: student.expiresAt,
-          isActive: true
-        });
+        await setDoc(doc(db, "students", phone), student);
       } else {
         saveLocal();
       }
@@ -1105,29 +2268,57 @@
       return GRADES.find(g => g.id === gradeId)?.name || gradeId;
     }
 
-    function isSubscriptionValid(student) {
-      if (!student || !student.isActive || !student.expiresAt) return false;
-      const today = new Date().toISOString().split("T")[0];
-      return student.expiresAt >= today;
-    }
-
     function toYouTubeEmbedUrl(url) {
       if (!url) return null;
       const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
       return match ? `https://www.youtube.com/embed/${match[1]}` : null;
     }
 
+    const introScreen = document.getElementById("introScreen");
     const loginView = document.getElementById("loginView");
     const studentView = document.getElementById("studentView");
     const adminView = document.getElementById("adminView");
     const topbarActions = document.getElementById("topbarActions");
     const loginError = document.getElementById("loginError");
+    const registerSuccess = document.getElementById("registerSuccess");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    function dismissIntro() {
+      if (!introScreen || introScreen.classList.contains("fade-out")) return;
+      introScreen.classList.add("fade-out");
+      setTimeout(() => {
+        introScreen.classList.add("hidden");
+        startHomeAutoSlide();
+      }, 460);
+    }
+
+    document.getElementById("skipIntroBtn").addEventListener("click", dismissIntro);
+    setTimeout(dismissIntro, 2400);
+
+    function setAuthMode(mode) {
+      const isRegister = mode === "register";
+      document.getElementById("modeLoginBtn").classList.toggle("active", !isRegister);
+      document.getElementById("modeRegisterBtn").classList.toggle("active", isRegister);
+      loginForm.classList.toggle("hidden", isRegister);
+      registerForm.classList.toggle("hidden", !isRegister);
+      loginError.classList.add("hidden");
+      registerSuccess.classList.add("hidden");
+    }
+
+    document.getElementById("modeLoginBtn").addEventListener("click", () => setAuthMode("login"));
+    document.getElementById("modeRegisterBtn").addEventListener("click", () => setAuthMode("register"));
+    document.getElementById("jumpToRegisterBtn").addEventListener("click", () => {
+      setAuthMode("register");
+      document.getElementById("registerForm").scrollIntoView({ behavior: "smooth", block: "center" });
+    });
 
     function populateGradeSelects() {
       const filterSelect = document.getElementById("adminGradeFilter");
       const lessonGradeSelect = document.getElementById("lessonGrade");
       const studentGradeSelect = document.getElementById("studentGradeSelect");
       const posterGradeSelect = document.getElementById("posterGrade");
+      const regGradeSelect = document.getElementById("regGrade");
 
       filterSelect.innerHTML = `<option value="ALL">كل الصفوف الثمانية</option>` +
         GRADES.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
@@ -1135,6 +2326,7 @@
       const gradeOptions = GRADES.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
       lessonGradeSelect.innerHTML = gradeOptions;
       studentGradeSelect.innerHTML = gradeOptions;
+      regGradeSelect.innerHTML = `<option value="" disabled selected>اختر الصف الدراسي...</option>` + gradeOptions;
       posterGradeSelect.innerHTML = `<option value="ALL">كل الصفوف</option>` + gradeOptions;
       document.getElementById("studentExpiryDate").value = getDefaultDatePlusDays(30);
     }
@@ -1176,7 +2368,7 @@
       if (current.imageUrl) {
         mediaBox.innerHTML = `<img src="${current.imageUrl}" alt="${current.title}" />`;
       } else {
-        mediaBox.innerHTML = `<div class="poster-placeholder">منصتي التعليمية — تفوقك يبدأ من هنا</div>`;
+        mediaBox.innerHTML = `<div class="poster-placeholder">منصة نور التعليمية — تفوقك يبدأ من هنا</div>`;
       }
 
       const dotsEl = document.getElementById("posterDots");
@@ -1202,33 +2394,114 @@
       };
     }
 
+    function bindCopyButtons() {
+      document.querySelectorAll(".copy-pay-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const targetId = btn.dataset.copyTarget;
+          const text = document.getElementById(targetId)?.textContent?.trim() || "";
+          try {
+            await navigator.clipboard.writeText(text);
+          } catch (_) {
+            const temp = document.createElement("textarea");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            temp.remove();
+          }
+          const feedbacks = [document.getElementById("copyFeedback"), document.getElementById("homeCopyFeedback")];
+          feedbacks.forEach(fb => {
+            if (fb) {
+              fb.textContent = `تم نسخ الرقم: ${text}`;
+              setTimeout(() => { fb.textContent = ""; }, 2000);
+            }
+          });
+        });
+      });
+    }
+
     function renderStudentView() {
-      const freshStudent = state.students.find(s => s.phone === state.session.user.phone) || state.session.user;
+      const found = state.students.find(s => s.phone === state.session.user.phone) || state.session.user;
+      const freshStudent = ensureStudentSubjectsModel(found);
       state.session.user = freshStudent;
 
+      const enrolledIds = Object.keys(freshStudent.subjects);
+      if (!enrolledIds.includes(state.activeStudentSubjectId)) {
+        state.activeStudentSubjectId = enrolledIds[0] || "arabic";
+      }
+
+      refreshWhatsAppLinks();
       renderStudentPosters(freshStudent.gradeId);
 
-      const valid = isSubscriptionValid(freshStudent);
       document.getElementById("studentGreeting").textContent = `مرحباً، ${freshStudent.name}`;
       document.getElementById("studentGradeLabel").textContent = `الصف الدراسي: ${getGradeName(freshStudent.gradeId)}`;
-      document.getElementById("studentExpiryLabel").textContent = `ينتهي الاشتراك في: ${freshStudent.expiresAt || "غير محدد"}`;
+      const guardianParts = [];
+      if (freshStudent.fatherPhone) guardianParts.push(`الأب: ${freshStudent.fatherPhone}`);
+      if (freshStudent.motherPhone) guardianParts.push(`الأم: ${freshStudent.motherPhone}`);
+      if (freshStudent.address) guardianParts.push(`العنوان: ${freshStudent.address}`);
+      document.getElementById("studentGuardianLabel").textContent = guardianParts.join(" | ");
 
-      const badge = document.getElementById("studentSubBadge");
-      badge.className = `status-pill ${valid ? "pill-active" : "pill-expired"}`;
-      badge.textContent = valid ? "اشتراك نشط" : "اشتراك منتهي / موقوف";
+      const chipsEl = document.getElementById("studentEnrolledSubjectsChips");
+      chipsEl.innerHTML = enrolledIds.map(sid => {
+        const active = isSubjectSubscriptionValid(freshStudent, sid);
+        return `<span class="status-pill ${active ? "pill-active" : "pill-free"}">${getSubjectName(sid)}: ${active ? "مفعّل" : "مجاني / بانتظار التفعيل"}</span>`;
+      }).join("");
 
-      document.getElementById("expiredSubscriptionAlert").classList.toggle("hidden", valid);
+      const tabsEl = document.getElementById("studentSubjectTabs");
+      const allTabSubjects = Array.from(new Set([...enrolledIds, ...state.subjects.map(s => s.id)]));
+      tabsEl.innerHTML = allTabSubjects.map(sid => {
+        const isSelected = sid === state.activeStudentSubjectId;
+        const active = isSubjectSubscriptionValid(freshStudent, sid);
+        return `
+          <button type="button" class="subject-tab-btn ${isSelected ? "active" : ""}" data-subject="${sid}">
+            <span>${getSubjectName(sid)}</span>
+            <span class="status-pill ${active ? "pill-active" : "pill-free"}" style="padding: 2px 8px; font-size: 0.72rem;">
+              ${active ? "مفعّل" : "مجاني"}
+            </span>
+          </button>
+        `;
+      }).join("");
+
+      tabsEl.querySelectorAll(".subject-tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.activeStudentSubjectId = btn.dataset.subject;
+          renderStudentView();
+        });
+      });
+
+      const currentSubId = state.activeStudentSubjectId;
+      const currentSubObj = freshStudent.subjects[currentSubId];
+      const validForSubject = isSubjectSubscriptionValid(freshStudent, currentSubId);
+
+      document.getElementById("activeSubjectNameLabel").textContent = `المادة الحالية: ${getSubjectName(currentSubId)}`;
+      document.getElementById("activeSubjectSubNote").textContent = validForSubject
+        ? `اشتراك المادة نشط حتى: ${currentSubObj?.expiresAt || "غير محدد"}`
+        : "الدخول مجاني للحصص المجانية؛ والدروس المدفوعة تُفعّل بعد موافقة الإدارة واستلام التحويل.";
+
+      const subBadge = document.getElementById("activeSubjectSubBadge");
+      subBadge.className = `status-pill ${validForSubject ? "pill-active" : "pill-free"}`;
+      subBadge.textContent = validForSubject ? "اشتراك المادة مفعّل" : "دخول مجاني للمادة";
+
+      const topBadge = document.getElementById("studentSubBadge");
+      topBadge.className = `status-pill ${validForSubject ? "pill-active" : "pill-free"}`;
+      topBadge.textContent = validForSubject ? `${getSubjectName(currentSubId)} — مفعّل` : `${getSubjectName(currentSubId)} — دخول مجاني`;
+
+      document.getElementById("studentExpiryLabel").textContent = validForSubject
+        ? `ينتهي اشتراك المادة في: ${currentSubObj?.expiresAt || ""}`
+        : "بانتظار موافقة الإدارة بعد التحويل لتفعيل المدفوع";
+
+      document.getElementById("expiredSubscriptionAlert").classList.toggle("hidden", validForSubject);
 
       const live = state.liveSessions[freshStudent.gradeId] || {};
       const liveBadge = document.getElementById("liveStatusBadge");
       liveBadge.className = `status-pill ${live.isLive ? "pill-live" : "pill-offline"}`;
       liveBadge.textContent = live.isLive ? "بث مباشر الآن" : "لا يوجد بث نشط حالياً";
 
-      document.getElementById("liveTitleText").textContent = live.title || `حصة ${getGradeName(freshStudent.gradeId)}`;
+      document.getElementById("liveTitleText").textContent = `${live.title || getGradeName(freshStudent.gradeId)} (${getSubjectName(currentSubId)})`;
       document.getElementById("liveScheduleText").textContent = `الموعد: ${live.schedule || "لم يُحدد"}`;
 
       const joinBtn = document.getElementById("joinLiveBtn");
-      if (valid && live.meetingUrl) {
+      if (validForSubject && live.meetingUrl) {
         joinBtn.href = live.meetingUrl;
         joinBtn.style.pointerEvents = "auto";
         joinBtn.style.opacity = "1";
@@ -1238,35 +2511,48 @@
         joinBtn.style.opacity = "0.5";
       }
 
-      const gradeLessons = state.lessons.filter(l => l.gradeId === freshStudent.gradeId);
+      document.getElementById("studentLessonsHeading").textContent = `مكتبة الدروس المخزّنة — ${getSubjectName(currentSubId)}`;
+      const gradeSubjectLessons = state.lessons.filter(
+        l => l.gradeId === freshStudent.gradeId && (l.subjectId || "arabic") === currentSubId
+      );
       const listEl = document.getElementById("studentLessonsList");
 
-      if (!valid) {
-        listEl.innerHTML = `<p style="color: var(--muted);">الدروس المخزّنة متاحة للمشتركين ذوي الاشتراك النشط فقط.</p>`;
+      if (gradeSubjectLessons.length === 0) {
+        listEl.innerHTML = `<p style="color: var(--muted);">لا توجد دروس مسجلة لمادة ${getSubjectName(currentSubId)} في صفك حالياً.</p>`;
         return;
       }
 
-      if (gradeLessons.length === 0) {
-        listEl.innerHTML = `<p style="color: var(--muted);">لا توجد دروس مخزّنة لهذا الصف حالياً.</p>`;
-        return;
-      }
-
-      listEl.innerHTML = gradeLessons.map(lesson => `
-        <div class="lesson-card">
-          <div>
-            <div style="font-weight: 800; margin-bottom: 6px;">${lesson.title}</div>
-            <div class="lesson-meta">تاريخ الإضافة: ${lesson.createdAt || ""}</div>
+      listEl.innerHTML = gradeSubjectLessons.map(lesson => {
+        const isFree = (lesson.accessType || "paid") === "free";
+        const unlocked = canWatchLesson(lesson, freshStudent);
+        return `
+          <div class="lesson-card">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px;">
+                <span class="status-pill ${isFree ? "pill-free" : "pill-paid"}">
+                  ${isFree ? "درس مجاني" : "درس مدفوع"}
+                </span>
+                <span class="lesson-meta">${lesson.createdAt || ""}</span>
+              </div>
+              <div style="font-weight: 800; margin-bottom: 6px;">${lesson.title}</div>
+              <div class="lesson-meta">
+                ${unlocked ? "متاح للمشاهدة الآن" : "يتطلب موافقة الإدارة بعد استلام التحويل"}
+              </div>
+            </div>
+            ${unlocked
+              ? `<button class="btn btn-primary btn-sm watch-lesson-btn" data-id="${lesson.id}">مشاهدة الدرس</button>`
+              : `<a class="btn btn-whatsapp btn-sm" href="${buildWhatsAppUrl(freshStudent, currentSubId)}" target="_blank" rel="noopener noreferrer">إرسال إيصال التحويل للتفعيل</a>`
+            }
           </div>
-          <button class="btn btn-primary btn-sm watch-lesson-btn" data-id="${lesson.id}">
-            مشاهدة الدرس
-          </button>
-        </div>
-      `).join("");
+        `;
+      }).join("");
 
       listEl.querySelectorAll(".watch-lesson-btn").forEach(btn => {
         btn.addEventListener("click", () => {
-          const lesson = gradeLessons.find(item => item.id === btn.dataset.id);
-          if (lesson) openVideoModal(lesson, freshStudent);
+          const lesson = gradeSubjectLessons.find(item => item.id === btn.dataset.id);
+          if (lesson && canWatchLesson(lesson, freshStudent)) {
+            openVideoModal(lesson, freshStudent);
+          }
         });
       });
     }
@@ -1316,12 +2602,31 @@
     }
 
     function renderAdminView() {
-      const selectedFilter = document.getElementById("adminGradeFilter").value;
-      const targetGrades = selectedFilter === "ALL"
+      refreshWhatsAppLinks();
+      const selectedGrade = document.getElementById("adminGradeFilter").value;
+      const selectedSubject = document.getElementById("adminSubjectFilter").value;
+      const targetGrades = selectedGrade === "ALL"
         ? GRADES
-        : GRADES.filter(g => g.id === selectedFilter);
+        : GRADES.filter(g => g.id === selectedGrade);
 
-      // جدول البوسترات
+      const subjListEl = document.getElementById("adminSubjectsList");
+      subjListEl.innerHTML = state.subjects.map(s => `
+        <span class="payment-chip">
+          <strong>${s.name}</strong>
+          ${s.id !== "arabic"
+            ? `<button type="button" class="btn btn-danger btn-sm delete-subject-btn" data-id="${s.id}" style="padding: 2px 8px; font-size: 0.75rem;">حذف</button>`
+            : `<span style="font-size: 0.75rem; color: var(--muted);">(أساسية)</span>`
+          }
+        </span>
+      `).join("");
+
+      subjListEl.querySelectorAll(".delete-subject-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          await removeSubject(btn.dataset.id);
+          renderAdminView();
+        });
+      });
+
       const postersBody = document.getElementById("adminPostersTableBody");
       postersBody.innerHTML = state.posters.length === 0
         ? `<tr><td colspan="4" style="color: var(--muted);">لا توجد بوسترات منشورة.</td></tr>`
@@ -1341,7 +2646,6 @@
         });
       });
 
-      // جدول اللايف
       const liveBody = document.getElementById("adminLiveTableBody");
       liveBody.innerHTML = targetGrades.map(g => {
         const live = state.liveSessions[g.id] || { title: "", schedule: "", meetingUrl: "", isLive: false };
@@ -1380,21 +2684,44 @@
         });
       });
 
-      const filteredLessons = selectedFilter === "ALL"
-        ? state.lessons
-        : state.lessons.filter(l => l.gradeId === selectedFilter);
+      const filteredLessons = state.lessons.filter(l => {
+        const gradeMatch = selectedGrade === "ALL" || l.gradeId === selectedGrade;
+        const subjMatch = selectedSubject === "ALL" || (l.subjectId || "arabic") === selectedSubject;
+        return gradeMatch && subjMatch;
+      });
 
       const lessonsBody = document.getElementById("adminLessonsTableBody");
       lessonsBody.innerHTML = filteredLessons.length === 0
-        ? `<tr><td colspan="4" style="color: var(--muted);">لا توجد دروس مسجلة.</td></tr>`
-        : filteredLessons.map(lesson => `
-          <tr>
-            <td>${getGradeName(lesson.gradeId)}</td>
-            <td><strong>${lesson.title}</strong></td>
-            <td>${lesson.createdAt || ""}</td>
-            <td><button class="btn btn-danger btn-sm delete-lesson-btn" data-id="${lesson.id}">حذف</button></td>
-          </tr>
-        `).join("");
+        ? `<tr><td colspan="6" style="color: var(--muted);">لا توجد دروس مسجلة.</td></tr>`
+        : filteredLessons.map(lesson => {
+          const isFree = (lesson.accessType || "paid") === "free";
+          return `
+            <tr>
+              <td>${getGradeName(lesson.gradeId)}</td>
+              <td><strong>${getSubjectName(lesson.subjectId || "arabic")}</strong></td>
+              <td><strong>${lesson.title}</strong></td>
+              <td>
+                <span class="status-pill ${isFree ? "pill-free" : "pill-paid"}">
+                  ${isFree ? "مجاني" : "مدفوع"}
+                </span>
+              </td>
+              <td>${lesson.createdAt || ""}</td>
+              <td style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button class="btn btn-outline btn-sm toggle-lesson-type-btn" data-id="${lesson.id}">
+                  تحويل إلى ${isFree ? "مدفوع" : "مجاني"}
+                </button>
+                <button class="btn btn-danger btn-sm delete-lesson-btn" data-id="${lesson.id}">حذف</button>
+              </td>
+            </tr>
+          `;
+        }).join("");
+
+      lessonsBody.querySelectorAll(".toggle-lesson-type-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          await toggleLessonAccessType(btn.dataset.id);
+          renderAdminView();
+        });
+      });
 
       lessonsBody.querySelectorAll(".delete-lesson-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
@@ -1403,30 +2730,49 @@
         });
       });
 
-      const filteredStudents = selectedFilter === "ALL"
-        ? state.students
-        : state.students.filter(s => s.gradeId === selectedFilter);
+      const actionSubjectId = selectedSubject !== "ALL"
+        ? selectedSubject
+        : (document.getElementById("studentSubjectSelect")?.value || "arabic");
+
+      const filteredStudents = state.students.map(ensureStudentSubjectsModel).filter(s => {
+        const gradeMatch = selectedGrade === "ALL" || s.gradeId === selectedGrade;
+        const subjMatch = selectedSubject === "ALL" || Boolean(s.subjects[selectedSubject]);
+        return gradeMatch && subjMatch;
+      });
 
       const studentsBody = document.getElementById("adminStudentsTableBody");
       studentsBody.innerHTML = filteredStudents.length === 0
-        ? `<tr><td colspan="6" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
+        ? `<tr><td colspan="7" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
         : filteredStudents.map(st => {
-          const active = isSubscriptionValid(st);
+          const subjectEntries = Object.keys(st.subjects).map(sid => {
+            const active = isSubjectSubscriptionValid(st, sid);
+            const exp = st.subjects[sid]?.expiresAt || "-";
+            return `<div style="margin-bottom: 4px;">
+              <span class="status-pill ${active ? "pill-active" : "pill-expired"}">
+                ${getSubjectName(sid)}: ${active ? `مفعّل (حتى ${exp})` : "مجاني / بانتظار التفعيل"}
+              </span>
+            </div>`;
+          }).join("");
+
+          const targetSubActive = isSubjectSubscriptionValid(st, actionSubjectId);
+
           return `
             <tr>
               <td><strong>${st.name}</strong></td>
               <td>${st.phone}</td>
-              <td>${getGradeName(st.gradeId)}</td>
-              <td>${st.expiresAt || "-"}</td>
               <td>
-                <span class="status-pill ${active ? "pill-active" : "pill-expired"}">
-                  ${active ? "نشط" : "منتهي / موقوف"}
-                </span>
+                <div>أب: ${st.fatherPhone || "-"}</div>
+                <div>أم: ${st.motherPhone || "-"}</div>
               </td>
+              <td>${getGradeName(st.gradeId)}</td>
+              <td>${st.address || "-"}</td>
+              <td>${subjectEntries}</td>
               <td style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button class="btn btn-success btn-sm renew-btn" data-phone="${st.phone}">+30 يوم</button>
-                <button class="btn btn-outline btn-sm toggle-btn" data-phone="${st.phone}">
-                  ${st.isActive ? "إيقاف" : "تفعيل"}
+                <button class="btn btn-success btn-sm renew-btn" data-phone="${st.phone}" data-subj="${actionSubjectId}">
+                  +30 يوم (${getSubjectName(actionSubjectId)})
+                </button>
+                <button class="btn btn-outline btn-sm toggle-btn" data-phone="${st.phone}" data-subj="${actionSubjectId}">
+                  ${targetSubActive ? "إيقاف" : "موافقة وتفعيل"} (${getSubjectName(actionSubjectId)})
                 </button>
               </td>
             </tr>
@@ -1435,14 +2781,14 @@
 
       studentsBody.querySelectorAll(".renew-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
-          await renewStudentMonth(btn.dataset.phone);
+          await renewStudentSubjectMonth(btn.dataset.phone, btn.dataset.subj);
           renderAdminView();
         });
       });
 
       studentsBody.querySelectorAll(".toggle-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
-          await toggleStudentActive(btn.dataset.phone);
+          await toggleStudentSubjectActive(btn.dataset.phone, btn.dataset.subj);
           renderAdminView();
         });
       });
@@ -1450,15 +2796,19 @@
 
     function renderApp() {
       renderTopbar();
+      refreshWhatsAppLinks();
       loginView.classList.add("hidden");
       studentView.classList.add("hidden");
       adminView.classList.add("hidden");
 
       if (!state.session) {
         loginView.classList.remove("hidden");
+        renderHomePosterCarousel();
+        startHomeAutoSlide();
         return;
       }
 
+      stopHomeAutoSlide();
       if (state.session.role === "admin") {
         adminView.classList.remove("hidden");
         renderAdminView();
@@ -1468,9 +2818,10 @@
       }
     }
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       loginError.classList.add("hidden");
+      registerSuccess.classList.add("hidden");
       const phone = document.getElementById("loginPhone").value.trim();
       const password = document.getElementById("loginPassword").value;
 
@@ -1484,13 +2835,72 @@
 
       const student = state.students.find(s => s.phone === phone && s.password === password);
       if (student) {
-        state.session = { role: "student", user: student };
+        const normalized = ensureStudentSubjectsModel(student);
+        state.activeStudentSubjectId = normalized.subjectId || "arabic";
+        state.session = { role: "student", user: normalized };
         renderApp();
         return;
       }
 
       loginError.textContent = "رقم الهاتف أو كلمة المرور غير صحيحة.";
       loginError.classList.remove("hidden");
+    });
+
+    registerForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      loginError.classList.add("hidden");
+      registerSuccess.classList.add("hidden");
+
+      const name = document.getElementById("regName").value.trim();
+      const phone = document.getElementById("regStudentPhone").value.trim();
+      const password = document.getElementById("regPassword").value;
+      const fatherPhone = document.getElementById("regFatherPhone").value.trim();
+      const motherPhone = document.getElementById("regMotherPhone").value.trim();
+      const gradeId = document.getElementById("regGrade").value;
+      const subjectId = document.getElementById("regSubject").value || "arabic";
+      const address = document.getElementById("regAddress").value.trim();
+
+      if (!gradeId) {
+        loginError.textContent = "يرجى اختيار الصف الدراسي من القائمة.";
+        loginError.classList.remove("hidden");
+        return;
+      }
+
+      const submitBtn = registerForm.querySelector("button[type='submit']");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "جاري إنشاء الحساب...";
+
+      await loadAllData();
+      const created = await upsertStudent({
+        name,
+        phone,
+        password,
+        fatherPhone,
+        motherPhone,
+        gradeId,
+        subjectId,
+        address,
+        expiresAt: getDefaultDatePlusDays(30)
+      }, true);
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = "إنشاء الحساب الآن";
+      registerForm.reset();
+
+      state.activeStudentSubjectId = subjectId;
+      state.session = { role: "student", user: created };
+      renderApp();
+    });
+
+    document.getElementById("studentAddSubjectBtn").addEventListener("click", async () => {
+      if (!state.session || state.session.role !== "student") return;
+      const chosenSub = document.getElementById("studentAddSubjectSelect").value;
+      const updated = await enrollStudentInSubject(state.session.user.phone, chosenSub);
+      if (updated) {
+        state.session.user = updated;
+        state.activeStudentSubjectId = chosenSub;
+        renderStudentView();
+      }
     });
 
     document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -1504,6 +2914,16 @@
     });
 
     document.getElementById("adminGradeFilter").addEventListener("change", renderAdminView);
+    document.getElementById("adminSubjectFilter").addEventListener("change", renderAdminView);
+
+    document.getElementById("addSubjectForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("newSubjectName");
+      if (!input.value.trim()) return;
+      await addSubject(input.value);
+      input.value = "";
+      renderAdminView();
+    });
 
     document.getElementById("addPosterForm").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -1523,17 +2943,22 @@
     document.getElementById("addLessonForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const gradeId = document.getElementById("lessonGrade").value;
+      const subjectId = document.getElementById("lessonSubject").value || "arabic";
+      const accessType = document.getElementById("lessonAccessType").value;
       const title = document.getElementById("lessonTitle").value.trim();
       const videoUrl = document.getElementById("lessonVideoUrl").value.trim();
       if (!title || !videoUrl) return;
 
       await addLesson({
         gradeId,
+        subjectId,
+        accessType,
         title,
         videoUrl,
         createdAt: new Date().toISOString().split("T")[0]
       });
       e.target.reset();
+      document.getElementById("lessonAccessType").value = "free";
       renderAdminView();
     });
 
@@ -1543,9 +2968,13 @@
         name: document.getElementById("studentName").value,
         phone: document.getElementById("studentPhone").value,
         password: document.getElementById("studentPassword").value,
+        fatherPhone: document.getElementById("studentFatherPhone").value,
+        motherPhone: document.getElementById("studentMotherPhone").value,
         gradeId: document.getElementById("studentGradeSelect").value,
+        subjectId: document.getElementById("studentSubjectSelect").value || "arabic",
+        address: document.getElementById("studentAddress").value,
         expiresAt: document.getElementById("studentExpiryDate").value
-      });
+      }, false);
       e.target.reset();
       document.getElementById("studentExpiryDate").value = getDefaultDatePlusDays(30);
       renderAdminView();
@@ -1556,6 +2985,10 @@
       if (e.target.id === "videoModal") closeVideoModal();
     });
 
+    initHomePosterInteractions();
+    populateSubjectSelects();
+    renderHomePosterCarousel();
+    bindCopyButtons();
     populateGradeSelects();
     loadAllData().then(renderApp);
   </script>
