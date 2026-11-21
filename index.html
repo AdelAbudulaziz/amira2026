@@ -151,7 +151,6 @@
       border-radius: 8px;
     }
 
-    /* Login Card */
     .login-box {
       max-width: 440px;
       margin: 42px auto;
@@ -185,7 +184,6 @@
       box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
     }
 
-    /* Student Tabs */
     .tabs {
       display: flex;
       gap: 10px;
@@ -275,7 +273,6 @@
       color: var(--muted);
     }
 
-    /* Admin Grid & Tables */
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -305,7 +302,6 @@
       color: var(--muted);
     }
 
-    /* Video Modal with Watermark */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -404,9 +400,8 @@
   </header>
 
   <main class="container">
-    <!-- Firebase Setup Banner (يظهر فقط إذا لم يتم إدخال بيانات Firebase بعد) -->
     <div class="alert alert-warn hidden" id="firebaseConfigNotice">
-      تنبيه: المنصة تعمل حالياً ببيانات تجريبية محلية لأنك لم تضع بيانات مشروع Firebase في الكود بعد. استبدل كائن <code>FIREBASE_CONFIG</code> داخل الكود ببيانات مشروعك الحقيقي لتفعيل الحفظ السحابي الدائم.
+      تنبيه: المنصة تعمل حالياً ببيانات تجريبية محلية لأنك لم تضع بيانات مشروع Firebase في الكود بعد.
     </div>
 
     <!-- 1. شاشة تسجيل الدخول -->
@@ -456,7 +451,6 @@
         <button class="tab-btn" data-tab="lessons" id="tabLessonsBtn">الدروس المخزّنة</button>
       </div>
 
-      <!-- تبويب الحصة المباشرة -->
       <div class="card" id="studentLivePanel">
         <div class="live-panel">
           <div>
@@ -472,7 +466,6 @@
         </div>
       </div>
 
-      <!-- تبويب الدروس المخزّنة -->
       <div class="card hidden" id="studentLessonsPanel">
         <h3 style="font-weight: 800; margin-bottom: 14px;">مكتبة الدروس المخزّنة لصفك</h3>
         <div class="lessons-grid" id="studentLessonsList"></div>
@@ -492,7 +485,6 @@
         </div>
       </div>
 
-      <!-- إدارة اللايف للـ 8 صفوف -->
       <div class="card">
         <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة الحصص المباشرة (Live)</h3>
         <div class="table-wrap">
@@ -513,7 +505,6 @@
       </div>
 
       <div class="grid-2">
-        <!-- إضافة درس مخزّن -->
         <div class="card">
           <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة درس مخزّن جديد</h3>
           <form id="addLessonForm">
@@ -526,14 +517,13 @@
               <input type="text" id="lessonTitle" placeholder="مثال: الوحدة الأولى - الدرس الأول" required />
             </div>
             <div class="form-group">
-              <label for="lessonVideoUrl">رابط الفيديو (MP4 أو رابط تضمين Bunny Stream / VdoCipher)</label>
-              <input type="url" id="lessonVideoUrl" placeholder="https://..." required />
+              <label for="lessonVideoUrl">رابط الفيديو (يوتيوب أو MP4 أو رابط تضمين)</label>
+              <input type="url" id="lessonVideoUrl" placeholder="https://youtu.be/... أو https://..." required />
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ الدرس في المكتبة</button>
           </form>
         </div>
 
-        <!-- إضافة / تحديث اشتراك طالب -->
         <div class="card">
           <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة أو تفعيل اشتراك طالب</h3>
           <form id="addStudentForm">
@@ -564,7 +554,6 @@
         </div>
       </div>
 
-      <!-- قائمة الدروس المخزّنة -->
       <div class="card">
         <h3 style="font-weight: 800; margin-bottom: 14px;">الدروس المخزّنة</h3>
         <div class="table-wrap">
@@ -582,7 +571,6 @@
         </div>
       </div>
 
-      <!-- قائمة الطلاب والاشتراكات -->
       <div class="card">
         <h3 style="font-weight: 800; margin-bottom: 14px;">الطلاب والاشتراكات</h3>
         <div class="table-wrap">
@@ -604,7 +592,6 @@
     </section>
   </main>
 
-  <!-- نافذة تشغيل الدرس المخزّن -->
   <div class="modal-backdrop" id="videoModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -617,23 +604,19 @@
     </div>
   </div>
 
-  <!-- Firebase SDK (ES Modules) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getFirestore, collection, doc, getDocs, setDoc, deleteDoc, updateDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    // =========================================================================
-    // 1. ضع بيانات مشروع Firebase الخاص بك هنا لتفعيل قاعدة البيانات الحقيقية
-    // =========================================================================
     const FIREBASE_CONFIG = {
-      apiKey: "PUT_YOUR_API_KEY_HERE",
-      authDomain: "PUT_YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "PUT_YOUR_PROJECT_ID",
-      storageBucket: "PUT_YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "PUT_YOUR_SENDER_ID",
-      appId: "PUT_YOUR_APP_ID"
+      apiKey: "AIzaSyCfrKMUMyVANDMg2VQRTj8e-8jceH_Aq4s",
+      authDomain: "amira2026-374fb.firebaseapp.com",
+      projectId: "amira2026-374fb",
+      storageBucket: "amira2026-374fb.firebasestorage.app",
+      messagingSenderId: "22198782613",
+      appId: "1:22198782613:web:43cb8993262151e3a7299c"
     };
 
     const ADMIN_CREDENTIALS = {
@@ -653,7 +636,7 @@
       { id: "p3", name: "الصف الثالث الإعدادي" }
     ];
 
-    const isFirebaseConfigured = !FIREBASE_CONFIG.apiKey.startsWith("PUT_YOUR_");
+    const isFirebaseConfigured = Boolean(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
     let db = null;
 
     if (isFirebaseConfigured) {
@@ -663,10 +646,9 @@
       document.getElementById("firebaseConfigNotice").classList.remove("hidden");
     }
 
-    // حالة التطبيق في الذاكرة
     const state = {
-      session: null, // { role: 'admin' | 'student', user: ... }
-      liveSessions: {}, // { [gradeId]: { gradeId, title, schedule, meetingUrl, isLive } }
+      session: null,
+      liveSessions: {},
       lessons: [],
       students: []
     };
@@ -742,7 +724,6 @@
         return;
       }
 
-      // قراءة البيانات من Firestore
       const liveSnap = await getDocs(collection(db, "live_sessions"));
       const liveMap = {};
       GRADES.forEach(g => {
@@ -867,7 +848,12 @@
       return student.expiresAt >= today;
     }
 
-    // عناصر الواجهة
+    function toYouTubeEmbedUrl(url) {
+      if (!url) return null;
+      const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+    }
+
     const loginView = document.getElementById("loginView");
     const studentView = document.getElementById("studentView");
     const adminView = document.getElementById("adminView");
@@ -904,7 +890,6 @@
     }
 
     function renderStudentView() {
-      // تحديث بيانات الطالب من أحدث حالة محفوظة
       const freshStudent = state.students.find(s => s.phone === state.session.user.phone) || state.session.user;
       state.session.user = freshStudent;
 
@@ -919,7 +904,6 @@
 
       document.getElementById("expiredSubscriptionAlert").classList.toggle("hidden", valid);
 
-      // تبويب اللايف
       const live = state.liveSessions[freshStudent.gradeId] || {};
       const liveBadge = document.getElementById("liveStatusBadge");
       liveBadge.className = `status-pill ${live.isLive ? "pill-live" : "pill-offline"}`;
@@ -931,7 +915,6 @@
       const joinBtn = document.getElementById("joinLiveBtn");
       if (valid && live.meetingUrl) {
         joinBtn.href = live.meetingUrl;
-        joinBtn.classList.remove("disabled");
         joinBtn.style.pointerEvents = "auto";
         joinBtn.style.opacity = "1";
       } else {
@@ -940,7 +923,6 @@
         joinBtn.style.opacity = "0.5";
       }
 
-      // تبويب الدروس المخزّنة
       const gradeLessons = state.lessons.filter(l => l.gradeId === freshStudent.gradeId);
       const listEl = document.getElementById("studentLessonsList");
 
@@ -982,11 +964,18 @@
       document.getElementById("modalLessonTitle").textContent = lesson.title;
       watermark.textContent = `${student.name} | ${student.phone}`;
 
-      // إزالة أي مشغل سابق مع الإبقاء على العلامة المائية
       stage.querySelectorAll("video, iframe").forEach(el => el.remove());
 
+      const ytEmbed = toYouTubeEmbedUrl(lesson.videoUrl);
       const isDirectVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(lesson.videoUrl);
-      if (isDirectVideo) {
+
+      if (ytEmbed) {
+        const iframe = document.createElement("iframe");
+        iframe.src = ytEmbed;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        stage.prepend(iframe);
+      } else if (isDirectVideo) {
         const video = document.createElement("video");
         video.src = lesson.videoUrl;
         video.controls = true;
@@ -1017,20 +1006,19 @@
         ? GRADES
         : GRADES.filter(g => g.id === selectedFilter);
 
-      // جدول اللايف
       const liveBody = document.getElementById("adminLiveTableBody");
       liveBody.innerHTML = targetGrades.map(g => {
-        const session = state.liveSessions[g.id] || { title: "", schedule: "", meetingUrl: "", isLive: false };
+        const live = state.liveSessions[g.id] || { title: "", schedule: "", meetingUrl: "", isLive: false };
         return `
           <tr data-grade="${g.id}">
             <td><strong>${g.name}</strong></td>
-            <td><input type="text" class="live-title-input" value="${session.title || ""}" /></td>
-            <td><input type="text" class="live-schedule-input" value="${session.schedule || ""}" /></td>
-            <td><input type="url" class="live-url-input" value="${session.meetingUrl || ""}" placeholder="https://zoom.us/j/..." /></td>
+            <td><input type="text" class="live-title" value="${live.title || ""}" /></td>
+            <td><input type="text" class="live-schedule" value="${live.schedule || ""}" /></td>
+            <td><input type="url" class="live-url" value="${live.meetingUrl || ""}" placeholder="https://..." /></td>
             <td>
-              <select class="live-status-select">
-                <option value="true" ${session.isLive ? "selected" : ""}>مباشر الآن</option>
-                <option value="false" ${!session.isLive ? "selected" : ""}>غير مباشر</option>
+              <select class="live-status">
+                <option value="true" ${live.isLive ? "selected" : ""}>مباشر</option>
+                <option value="false" ${!live.isLive ? "selected" : ""}>مغلق</option>
               </select>
             </td>
             <td><button class="btn btn-primary btn-sm save-live-btn">حفظ</button></td>
@@ -1045,80 +1033,78 @@
           btn.disabled = true;
           btn.textContent = "جاري الحفظ...";
           await saveLiveSession(gradeId, {
-            title: row.querySelector(".live-title-input").value.trim(),
-            schedule: row.querySelector(".live-schedule-input").value.trim(),
-            meetingUrl: row.querySelector(".live-url-input").value.trim(),
-            isLive: row.querySelector(".live-status-select").value === "true"
+            title: row.querySelector(".live-title").value.trim(),
+            schedule: row.querySelector(".live-schedule").value.trim(),
+            meetingUrl: row.querySelector(".live-url").value.trim(),
+            isLive: row.querySelector(".live-status").value === "true"
           });
           btn.disabled = false;
           btn.textContent = "تم الحفظ ✓";
-          setTimeout(() => (btn.textContent = "حفظ"), 1500);
+          setTimeout(() => { btn.textContent = "حفظ"; }, 1500);
         });
       });
 
-      // جدول الدروس المخزّنة
       const filteredLessons = selectedFilter === "ALL"
         ? state.lessons
         : state.lessons.filter(l => l.gradeId === selectedFilter);
 
       const lessonsBody = document.getElementById("adminLessonsTableBody");
       lessonsBody.innerHTML = filteredLessons.length === 0
-        ? `<tr><td colspan="4" style="color: var(--muted); text-align: center;">لا توجد دروس مسجلة.</td></tr>`
-        : filteredLessons.map(l => `
+        ? `<tr><td colspan="4" style="color: var(--muted);">لا توجد دروس مسجلة.</td></tr>`
+        : filteredLessons.map(lesson => `
           <tr>
-            <td>${getGradeName(l.gradeId)}</td>
-            <td><strong>${l.title}</strong></td>
-            <td>${l.createdAt || ""}</td>
-            <td><button class="btn btn-danger btn-sm del-lesson-btn" data-id="${l.id}">حذف</button></td>
+            <td>${getGradeName(lesson.gradeId)}</td>
+            <td><strong>${lesson.title}</strong></td>
+            <td>${lesson.createdAt || ""}</td>
+            <td><button class="btn btn-danger btn-sm delete-lesson-btn" data-id="${lesson.id}">حذف</button></td>
           </tr>
         `).join("");
 
-      lessonsBody.querySelectorAll(".del-lesson-btn").forEach(btn => {
+      lessonsBody.querySelectorAll(".delete-lesson-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
           await removeLesson(btn.dataset.id);
           renderAdminView();
         });
       });
 
-      // جدول الطلاب
       const filteredStudents = selectedFilter === "ALL"
         ? state.students
         : state.students.filter(s => s.gradeId === selectedFilter);
 
       const studentsBody = document.getElementById("adminStudentsTableBody");
       studentsBody.innerHTML = filteredStudents.length === 0
-        ? `<tr><td colspan="6" style="color: var(--muted); text-align: center;">لا يوجد طلاب مسجلون بعد.</td></tr>`
-        : filteredStudents.map(s => {
-          const valid = isSubscriptionValid(s);
+        ? `<tr><td colspan="6" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
+        : filteredStudents.map(st => {
+          const active = isSubscriptionValid(st);
           return `
             <tr>
-              <td><strong>${s.name}</strong></td>
-              <td>${s.phone}</td>
-              <td>${getGradeName(s.gradeId)}</td>
-              <td>${s.expiresAt || ""}</td>
+              <td><strong>${st.name}</strong></td>
+              <td>${st.phone}</td>
+              <td>${getGradeName(st.gradeId)}</td>
+              <td>${st.expiresAt || "-"}</td>
               <td>
-                <span class="status-pill ${valid ? "pill-active" : "pill-expired"}">
-                  ${valid ? "نشط" : "منتهي/موقوف"}
+                <span class="status-pill ${active ? "pill-active" : "pill-expired"}">
+                  ${active ? "نشط" : "منتهي / موقوف"}
                 </span>
               </td>
               <td style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button class="btn btn-success btn-sm renew-sub-btn" data-phone="${s.phone}">+30 يوم</button>
-                <button class="btn btn-outline btn-sm toggle-sub-btn" data-phone="${s.phone}">
-                  ${s.isActive ? "إيقاف" : "تفعيل"}
+                <button class="btn btn-success btn-sm renew-btn" data-phone="${st.phone}">+30 يوم</button>
+                <button class="btn btn-outline btn-sm toggle-btn" data-phone="${st.phone}">
+                  ${st.isActive ? "إيقاف" : "تفعيل"}
                 </button>
               </td>
             </tr>
           `;
         }).join("");
 
-      studentsBody.querySelectorAll(".renew-sub-btn").forEach(btn => {
+      studentsBody.querySelectorAll(".renew-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
           await renewStudentMonth(btn.dataset.phone);
           renderAdminView();
         });
       });
 
-      studentsBody.querySelectorAll(".toggle-sub-btn").forEach(btn => {
+      studentsBody.querySelectorAll(".toggle-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
           await toggleStudentActive(btn.dataset.phone);
           renderAdminView();
@@ -1146,13 +1132,13 @@
       }
     }
 
-    // أحداث النماذج والتبويبات
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       loginError.classList.add("hidden");
-
       const phone = document.getElementById("loginPhone").value.trim();
       const password = document.getElementById("loginPassword").value;
+
+      await loadAllData();
 
       if (phone === ADMIN_CREDENTIALS.phone && password === ADMIN_CREDENTIALS.password) {
         state.session = { role: "admin", user: ADMIN_CREDENTIALS };
@@ -1171,26 +1157,29 @@
       loginError.classList.remove("hidden");
     });
 
-    document.getElementById("tabLiveBtn").addEventListener("click", () => {
-      document.getElementById("tabLiveBtn").classList.add("active");
-      document.getElementById("tabLessonsBtn").classList.remove("active");
-      document.getElementById("studentLivePanel").classList.remove("hidden");
-      document.getElementById("studentLessonsPanel").classList.add("hidden");
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.dataset.tab;
+        document.getElementById("studentLivePanel").classList.toggle("hidden", tab !== "live");
+        document.getElementById("studentLessonsPanel").classList.toggle("hidden", tab !== "lessons");
+      });
     });
 
-    document.getElementById("tabLessonsBtn").addEventListener("click", () => {
-      document.getElementById("tabLessonsBtn").classList.add("active");
-      document.getElementById("tabLiveBtn").classList.remove("active");
-      document.getElementById("studentLessonsPanel").classList.remove("hidden");
-      document.getElementById("studentLivePanel").classList.add("hidden");
-    });
+    document.getElementById("adminGradeFilter").addEventListener("change", renderAdminView);
 
     document.getElementById("addLessonForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const gradeId = document.getElementById("lessonGrade").value;
+      const title = document.getElementById("lessonTitle").value.trim();
+      const videoUrl = document.getElementById("lessonVideoUrl").value.trim();
+      if (!title || !videoUrl) return;
+
       await addLesson({
-        gradeId: document.getElementById("lessonGrade").value,
-        title: document.getElementById("lessonTitle").value.trim(),
-        videoUrl: document.getElementById("lessonVideoUrl").value.trim(),
+        gradeId,
+        title,
+        videoUrl,
         createdAt: new Date().toISOString().split("T")[0]
       });
       e.target.reset();
@@ -1200,8 +1189,8 @@
     document.getElementById("addStudentForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       await upsertStudent({
-        name: document.getElementById("studentName").value.trim(),
-        phone: document.getElementById("studentPhone").value.trim(),
+        name: document.getElementById("studentName").value,
+        phone: document.getElementById("studentPhone").value,
         password: document.getElementById("studentPassword").value,
         gradeId: document.getElementById("studentGradeSelect").value,
         expiresAt: document.getElementById("studentExpiryDate").value
@@ -1211,16 +1200,13 @@
       renderAdminView();
     });
 
-    document.getElementById("adminGradeFilter").addEventListener("change", renderAdminView);
     document.getElementById("closeModalBtn").addEventListener("click", closeVideoModal);
     document.getElementById("videoModal").addEventListener("click", (e) => {
       if (e.target.id === "videoModal") closeVideoModal();
     });
 
-    // بدء التشغيل
     populateGradeSelects();
-    await loadAllData();
-    renderApp();
+    loadAllData().then(renderApp);
   </script>
 </body>
 </html>
