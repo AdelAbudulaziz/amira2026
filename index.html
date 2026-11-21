@@ -220,7 +220,7 @@
     }
 
     .container {
-      max-width: 1140px;
+      max-width: 1180px;
       margin: 24px auto;
       padding: 0 18px 56px;
     }
@@ -305,8 +305,8 @@
     }
 
     .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.82rem;
+      padding: 6px 11px;
+      font-size: 0.8rem;
       border-radius: 9px;
     }
 
@@ -728,6 +728,23 @@
       margin-top: 6px;
     }
 
+    .subject-sub-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 10px;
+      margin-bottom: 6px;
+    }
+
+    .subject-sub-row:last-child {
+      margin-bottom: 0;
+    }
+
     /* Posters & Announcements Showcase */
     .poster-hero {
       position: relative;
@@ -872,7 +889,7 @@
       gap: 6px;
       padding: 4px 12px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 700;
     }
 
@@ -962,7 +979,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     th, td {
@@ -1148,7 +1165,7 @@
           <form id="registerForm" class="hidden">
             <h3 style="margin-bottom: 6px; font-weight: 900; font-size: 1.25rem;">إنشاء حساب طالب جديد (دخول مجاني)</h3>
             <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 16px;">
-              سجّل حسابك مجاناً لتجربة الحصص المجانية؛ وتُفعّل الدروس المدفوعة بعد موافقة الإدارة واستلام التحويل.
+              سجّل حسابك مجاناً لتجربة الحصص المجانية؛ وتُفعّل الدروس المدفوعة لكل مادة بعد موافقة الإدارة واستلام التحويل.
             </p>
 
             <div class="form-group">
@@ -1467,11 +1484,11 @@
 
       <!-- إدارة المواد المتاحة -->
       <div class="card">
-        <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة المواد الدراسية المتاحة</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة المواد الدراسية المتاحة (تظهر في التسجيل والإدارة)</h3>
         <form id="addSubjectForm" style="display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 14px;">
           <div style="flex: 1; min-width: 220px;">
             <label for="newSubjectName">اسم مادة جديدة</label>
-            <input type="text" id="newSubjectName" placeholder="مثال: الرياضيات / اللغة الإنجليزية / العلوم" required />
+            <input type="text" id="newSubjectName" placeholder="مثال: اللغة الإنجليزية / الرياضيات / العلوم" required />
           </div>
           <button type="submit" class="btn btn-primary">+ إضافة مادة</button>
         </form>
@@ -1651,7 +1668,7 @@
       </div>
 
       <div class="card">
-        <h3 style="font-weight: 800; margin-bottom: 14px;">الطلاب واشتراكاتهم حسب المواد</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">جدول اشتراكات الطلاب — تحكم مستقل لكل مادة</h3>
         <div class="table-wrap">
           <table>
             <thead>
@@ -1661,8 +1678,7 @@
                 <th>هاتف الأب / الأم</th>
                 <th>الصف</th>
                 <th>العنوان</th>
-                <th>المواد وحالة التفعيل</th>
-                <th>إجراءات للمادة المحددة</th>
+                <th style="min-width: 390px;">اشتراكات المواد والتحكم بكل مادة</th>
               </tr>
             </thead>
             <tbody id="adminStudentsTableBody"></tbody>
@@ -1708,7 +1724,8 @@
     ];
 
     const DEFAULT_SUBJECTS = [
-      { id: "arabic", name: "اللغة العربية" }
+      { id: "arabic", name: "اللغة العربية" },
+      { id: "english", name: "اللغة الإنجليزية" }
     ];
 
     const WHATSAPP_PROOF_PHONE = "01099776670";
@@ -1753,7 +1770,7 @@
       activePosterIndex: 0
     };
 
-    const LOCAL_KEY = "noor_edu_platform_subjects_v9";
+    const LOCAL_KEY = "noor_edu_platform_subjects_v10";
     let homeAutoSlideTimer = null;
 
     function getDefaultDatePlusDays(days) {
@@ -1762,7 +1779,7 @@
     }
 
     function getSubjectName(subjectId) {
-      return state.subjects.find(s => s.id === subjectId)?.name || "اللغة العربية";
+      return state.subjects.find(s => s.id === subjectId)?.name || subjectId;
     }
 
     function ensureStudentSubjectsModel(student) {
@@ -2219,7 +2236,7 @@
       };
       currentSub.enrolled = true;
       currentSub.isActive = !currentSub.isActive;
-      if (currentSub.isActive && !currentSub.expiresAt) {
+      if (currentSub.isActive && (!currentSub.expiresAt || currentSub.expiresAt < new Date().toISOString().split("T")[0])) {
         currentSub.expiresAt = getDefaultDatePlusDays(30);
       }
       student.subjects[subjectId] = currentSub;
@@ -2304,6 +2321,9 @@
       registerForm.classList.toggle("hidden", !isRegister);
       loginError.classList.add("hidden");
       registerSuccess.classList.add("hidden");
+      if (isRegister) {
+        populateSubjectSelects();
+      }
     }
 
     document.getElementById("modeLoginBtn").addEventListener("click", () => setAuthMode("login"));
@@ -2730,10 +2750,6 @@
         });
       });
 
-      const actionSubjectId = selectedSubject !== "ALL"
-        ? selectedSubject
-        : (document.getElementById("studentSubjectSelect")?.value || "arabic");
-
       const filteredStudents = state.students.map(ensureStudentSubjectsModel).filter(s => {
         const gradeMatch = selectedGrade === "ALL" || s.gradeId === selectedGrade;
         const subjMatch = selectedSubject === "ALL" || Boolean(s.subjects[selectedSubject]);
@@ -2742,19 +2758,31 @@
 
       const studentsBody = document.getElementById("adminStudentsTableBody");
       studentsBody.innerHTML = filteredStudents.length === 0
-        ? `<tr><td colspan="7" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
+        ? `<tr><td colspan="6" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
         : filteredStudents.map(st => {
-          const subjectEntries = Object.keys(st.subjects).map(sid => {
+          const subjectKeys = Object.keys(st.subjects);
+          const subjectsRowsHtml = subjectKeys.map(sid => {
             const active = isSubjectSubscriptionValid(st, sid);
             const exp = st.subjects[sid]?.expiresAt || "-";
-            return `<div style="margin-bottom: 4px;">
-              <span class="status-pill ${active ? "pill-active" : "pill-expired"}">
-                ${getSubjectName(sid)}: ${active ? `مفعّل (حتى ${exp})` : "مجاني / بانتظار التفعيل"}
-              </span>
-            </div>`;
+            return `
+              <div class="subject-sub-row">
+                <div>
+                  <strong>${getSubjectName(sid)}</strong>
+                  <span class="status-pill ${active ? "pill-active" : "pill-expired"}" style="margin-right: 6px;">
+                    ${active ? `مفعّل (حتى ${exp})` : "موقوف / مجاني"}
+                  </span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button class="btn btn-success btn-sm renew-btn" data-phone="${st.phone}" data-subj="${sid}">
+                    تمديد الاشتراك 30 يوم
+                  </button>
+                  <button class="btn ${active ? "btn-danger" : "btn-outline"} btn-sm toggle-btn" data-phone="${st.phone}" data-subj="${sid}">
+                    ${active ? "إيقاف الاشتراك" : "تفعيل الاشتراك"}
+                  </button>
+                </div>
+              </div>
+            `;
           }).join("");
-
-          const targetSubActive = isSubjectSubscriptionValid(st, actionSubjectId);
 
           return `
             <tr>
@@ -2766,15 +2794,7 @@
               </td>
               <td>${getGradeName(st.gradeId)}</td>
               <td>${st.address || "-"}</td>
-              <td>${subjectEntries}</td>
-              <td style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button class="btn btn-success btn-sm renew-btn" data-phone="${st.phone}" data-subj="${actionSubjectId}">
-                  +30 يوم (${getSubjectName(actionSubjectId)})
-                </button>
-                <button class="btn btn-outline btn-sm toggle-btn" data-phone="${st.phone}" data-subj="${actionSubjectId}">
-                  ${targetSubActive ? "إيقاف" : "موافقة وتفعيل"} (${getSubjectName(actionSubjectId)})
-                </button>
-              </td>
+              <td>${subjectsRowsHtml}</td>
             </tr>
           `;
         }).join("");
@@ -2802,6 +2822,7 @@
       adminView.classList.add("hidden");
 
       if (!state.session) {
+        populateSubjectSelects();
         loginView.classList.remove("hidden");
         renderHomePosterCarousel();
         startHomeAutoSlide();
