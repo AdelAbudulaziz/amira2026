@@ -1771,7 +1771,36 @@
     };
 
     const LOCAL_KEY = "noor_edu_platform_subjects_v10";
+    const SESSION_KEY = "noor_edu_active_session_v1";
     let homeAutoSlideTimer = null;
+
+    function saveSession(sessionObj) {
+      if (sessionObj) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify(sessionObj));
+      } else {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    }
+
+    function restoreSession() {
+      try {
+        const raw = localStorage.getItem(SESSION_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed?.role === "admin") {
+          return { role: "admin", user: ADMIN_CREDENTIALS };
+        }
+        if (parsed?.role === "student" && parsed?.user?.phone) {
+          const fresh = state.students.find(s => s.phone === parsed.user.phone) || parsed.user;
+          const normalized = ensureStudentSubjectsModel(fresh);
+          state.activeStudentSubjectId = normalized.subjectId || "arabic";
+          return { role: "student", user: normalized };
+        }
+      } catch (_) {
+        localStorage.removeItem(SESSION_KEY);
+      }
+      return null;
+    }
 
     function getDefaultDatePlusDays(days) {
       const d = new Date(Date.now() + days * 86400000);
@@ -2362,6 +2391,7 @@
       `;
       document.getElementById("logoutBtn").addEventListener("click", () => {
         state.session = null;
+        saveSession(null);
         renderApp();
       });
     }
@@ -2850,6 +2880,7 @@
 
       if (phone === ADMIN_CREDENTIALS.phone && password === ADMIN_CREDENTIALS.password) {
         state.session = { role: "admin", user: ADMIN_CREDENTIALS };
+        saveSession(state.session);
         renderApp();
         return;
       }
@@ -2859,6 +2890,7 @@
         const normalized = ensureStudentSubjectsModel(student);
         state.activeStudentSubjectId = normalized.subjectId || "arabic";
         state.session = { role: "student", user: normalized };
+        saveSession(state.session);
         renderApp();
         return;
       }
@@ -2910,6 +2942,7 @@
 
       state.activeStudentSubjectId = subjectId;
       state.session = { role: "student", user: created };
+      saveSession(state.session);
       renderApp();
     });
 
@@ -3011,7 +3044,13 @@
     renderHomePosterCarousel();
     bindCopyButtons();
     populateGradeSelects();
-    loadAllData().then(renderApp);
+    loadAllData().then(() => {
+      state.session = restoreSession();
+      if (state.session) {
+        introScreen.classList.add("hidden");
+      }
+      renderApp();
+    });
   </script>
 </body>
 </html>
