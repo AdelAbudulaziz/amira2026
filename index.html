@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>المنصة التعليمية — الحصص المباشرة والدروس المخزّنة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f4f6fa;
@@ -18,12 +21,26 @@
       --success-soft: #dcfce7;
       --danger: #b91c1c;
       --danger-soft: #fee2e2;
+      --warning: #b45309;
+      --warning-soft: #fef3c7;
       --border: #e2e8f0;
       --radius: 14px;
+      --shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, Arial, sans-serif; }
-    body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
 
     .topbar {
       background: var(--surface);
@@ -34,87 +51,346 @@
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 30;
     }
 
-    .brand { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.15rem; color: var(--primary); }
-    .brand-badge { background: var(--primary-soft); color: var(--primary); padding: 4px 10px; border-radius: 999px; font-size: 0.78rem; }
-    .container { max-width: 1100px; margin: 24px auto; padding: 0 18px 48px; }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--primary);
+    }
+
+    .brand-badge {
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 24px auto;
+      padding: 0 18px 48px;
+    }
 
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 22px;
-      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+      box-shadow: var(--shadow);
       margin-bottom: 20px;
     }
 
     .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 10px 18px; border-radius: 10px; border: 1px solid transparent;
-      font-weight: bold; font-size: 0.92rem; cursor: pointer; text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: 0.18s ease;
+      text-decoration: none;
     }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-outline { background: var(--surface); color: var(--text); border-color: var(--border); }
-    .btn-success { background: var(--success); color: #fff; }
-    .btn-danger { background: var(--danger); color: #fff; }
-    .btn-sm { padding: 6px 12px; font-size: 0.82rem; border-radius: 8px; }
 
-    .login-box { max-width: 440px; margin: 42px auto; }
-    .form-group { margin-bottom: 14px; }
-    label { display: block; font-weight: bold; font-size: 0.88rem; margin-bottom: 6px; }
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      background: var(--surface-alt);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      border-radius: 8px;
+    }
+
+    /* Login Card */
+    .login-box {
+      max-width: 440px;
+      margin: 42px auto;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
     input, select {
-      width: 100%; padding: 10px 13px; border: 1px solid var(--border);
-      border-radius: 10px; font-size: 0.94rem; background: var(--surface);
+      width: 100%;
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.94rem;
+      background: var(--surface);
+      color: var(--text);
     }
 
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.12);
+    }
+
+    /* Student Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
     .tab-btn {
-      flex: 1; padding: 13px 16px; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--surface); font-weight: bold; font-size: 0.98rem; cursor: pointer; color: var(--muted);
+      flex: 1;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      font-weight: 800;
+      font-size: 0.98rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: 0.18s ease;
     }
-    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
 
-    .status-pill { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: bold; }
-    .pill-active { background: var(--success-soft); color: var(--success); }
-    .pill-expired { background: var(--danger-soft); color: var(--danger); }
-    .pill-live { background: #fee2e2; color: #dc2626; }
-    .pill-offline { background: #f1f5f9; color: #475569; }
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .pill-active {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .pill-expired {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .pill-live {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .pill-offline {
+      background: #f1f5f9;
+      color: #475569;
+    }
 
     .live-panel {
-      display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
-      background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius); padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius);
+      padding: 24px;
     }
 
-    .lessons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 16px;
+    }
+
     .lesson-card {
-      border: 1px solid var(--border); border-radius: 12px; padding: 16px;
-      background: var(--surface-alt); display: flex; flex-direction: column; justify-content: space-between; gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: var(--surface-alt);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    th, td { padding: 11px 12px; border-bottom: 1px solid var(--border); text-align: right; }
-    th { background: var(--surface-alt); color: var(--muted); }
+    .lesson-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
 
+    /* Admin Grid & Tables */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    /* Video Modal with Watermark */
     .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75);
-      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 60;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal-card { background: var(--surface); border-radius: var(--radius); max-width: 820px; width: 100%; overflow: hidden; }
-    .modal-header { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .player-stage { position: relative; background: #000; aspect-ratio: 16 / 9; width: 100%; }
-    .player-stage video, .player-stage iframe { width: 100%; height: 100%; border: 0; display: block; }
-    .watermark {
-      position: absolute; top: 16px; left: 16px; background: rgba(15, 23, 42, 0.7);
-      color: #fff; padding: 5px 11px; border-radius: 8px; font-size: 0.78rem; z-index: 5; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 60;
     }
 
-    .alert { padding: 12px 16px; border-radius: 10px; font-weight: bold; font-size: 0.9rem; margin-bottom: 16px; }
-    .alert-danger { background: var(--danger-soft); color: var(--danger); }
-    .hidden { display: none !important; }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 820px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .player-stage {
+      position: relative;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+    }
+
+    .player-stage video,
+    .player-stage iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .watermark {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(15, 23, 42, 0.65);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      pointer-events: none;
+      user-select: none;
+      z-index: 5;
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .alert-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid #fecaca;
+    }
+
+    .alert-warn {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border: 1px solid #fde68a;
+    }
+
+    .hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
@@ -124,21 +400,27 @@
       <span>منصتي التعليمية</span>
       <span class="brand-badge">من 1 ابتدائي إلى 3 إعدادي</span>
     </div>
-    <div id="topbarActions"></div>
+    <div class="user-actions" id="topbarActions"></div>
   </header>
 
   <main class="container">
-    <!-- شاشة تسجيل الدخول -->
+    <!-- Firebase Setup Banner (يظهر فقط إذا لم يتم إدخال بيانات Firebase بعد) -->
+    <div class="alert alert-warn hidden" id="firebaseConfigNotice">
+      تنبيه: المنصة تعمل حالياً ببيانات تجريبية محلية لأنك لم تضع بيانات مشروع Firebase في الكود بعد. استبدل كائن <code>FIREBASE_CONFIG</code> داخل الكود ببيانات مشروعك الحقيقي لتفعيل الحفظ السحابي الدائم.
+    </div>
+
+    <!-- 1. شاشة تسجيل الدخول -->
     <section class="card login-box" id="loginView">
-      <h2 style="margin-bottom: 6px;">تسجيل الدخول</h2>
+      <h2 style="margin-bottom: 6px; font-weight: 800;">تسجيل الدخول</h2>
       <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 18px;">
-        أدخل رقم الهاتف وكلمة المرور للوصول إلى حسابك.
+        أدخل رقم الهاتف وكلمة المرور للوصول إلى حسابك (طالب أو إدارة).
       </p>
       <div class="alert alert-danger hidden" id="loginError"></div>
+
       <form id="loginForm">
         <div class="form-group">
           <label for="loginPhone">رقم الهاتف</label>
-          <input type="text" id="loginPhone" placeholder="01000000000" required />
+          <input type="text" id="loginPhone" placeholder="مثال: 01012345678" required />
         </div>
         <div class="form-group">
           <label for="loginPassword">كلمة المرور</label>
@@ -146,59 +428,63 @@
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%;">دخول</button>
       </form>
+
       <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--muted);">
-        حساب الإدارة: <strong>01000000000</strong> | كلمة المرور: <strong>admin123</strong><br>
-        حساب طالب تجريبي (4 ابتدائي): <strong>01011112222</strong> | كلمة المرور: <strong>123</strong>
+        دخول الإدارة الافتراضي للتجربة: <strong>01000000000</strong> / كلمة المرور: <strong>admin123</strong>
       </div>
     </section>
 
-    <!-- واجهة الطالب -->
+    <!-- 2. واجهة الطالب المشترك -->
     <section id="studentView" class="hidden">
-      <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
         <div>
-          <h2 id="studentGreeting">مرحباً بك</h2>
+          <h2 id="studentGreeting" style="font-weight: 800;">مرحباً بك</h2>
           <div style="color: var(--muted); font-size: 0.9rem;" id="studentGradeLabel"></div>
         </div>
-        <div>
+        <div style="text-align: left;">
           <span id="studentSubBadge" class="status-pill"></span>
           <div style="font-size: 0.8rem; color: var(--muted); margin-top: 4px;" id="studentExpiryLabel"></div>
         </div>
       </div>
 
       <div class="alert alert-danger hidden" id="expiredSubscriptionAlert">
-        انتهت فترة اشتراكك الحالية. يرجى التواصل مع الإدارة لتجديد الاشتراك.
+        انتهت فترة اشتراكك الحالية. يرجى التواصل مع الإدارة لتجديد الاشتراك ومتابعة الحصص المباشرة والدروس المخزّنة.
       </div>
 
       <div class="tabs">
-        <button class="tab-btn active" id="tabLiveBtn">الحصة المباشرة (Live)</button>
-        <button class="tab-btn" id="tabLessonsBtn">الدروس المخزّنة</button>
+        <button class="tab-btn active" data-tab="live" id="tabLiveBtn">الحصة المباشرة (Live)</button>
+        <button class="tab-btn" data-tab="lessons" id="tabLessonsBtn">الدروس المخزّنة</button>
       </div>
 
+      <!-- تبويب الحصة المباشرة -->
       <div class="card" id="studentLivePanel">
         <div class="live-panel">
           <div>
             <span id="liveStatusBadge" class="status-pill" style="margin-bottom: 8px;"></span>
-            <h3 id="liveTitleText" style="margin-bottom: 4px;"></h3>
+            <h3 id="liveTitleText" style="font-weight: 800; margin-bottom: 4px;"></h3>
             <p id="liveScheduleText" style="color: var(--muted); font-size: 0.9rem;"></p>
           </div>
-          <a id="joinLiveBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-success">
-            دخول الحصة المباشرة
-          </a>
+          <div>
+            <a id="joinLiveBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-success">
+              دخول الحصة المباشرة
+            </a>
+          </div>
         </div>
       </div>
 
+      <!-- تبويب الدروس المخزّنة -->
       <div class="card hidden" id="studentLessonsPanel">
-        <h3 style="margin-bottom: 14px;">مكتبة الدروس المخزّنة لصفك</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">مكتبة الدروس المخزّنة لصفك</h3>
         <div class="lessons-grid" id="studentLessonsList"></div>
       </div>
     </section>
 
-    <!-- لوحة تحكم الإدارة -->
+    <!-- 3. لوحة تحكم المعلم / الإدارة -->
     <section id="adminView" class="hidden">
-      <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div class="card" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
         <div>
-          <h2>لوحة تحكم المعلم / الإدارة</h2>
-          <p style="color: var(--muted); font-size: 0.9rem;">إدارة الحصص المباشرة، الدروس المخزّنة، واشتراكات الطلاب للـ 8 صفوف.</p>
+          <h2 style="font-weight: 800;">لوحة تحكم المعلم / الإدارة</h2>
+          <p style="color: var(--muted); font-size: 0.9rem;">إدارة الحصص المباشرة، الدروس المخزّنة، واشتراكات الطلاب للصفوف الثمانية.</p>
         </div>
         <div style="min-width: 220px;">
           <label for="adminGradeFilter">تصفية حسب الصف الدراسي</label>
@@ -206,13 +492,14 @@
         </div>
       </div>
 
+      <!-- إدارة اللايف للـ 8 صفوف -->
       <div class="card">
-        <h3 style="margin-bottom: 14px;">إدارة الحصص المباشرة (Live)</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">إدارة الحصص المباشرة (Live)</h3>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>الصف</th>
+                <th>الصف الدراسي</th>
                 <th>عنوان الحصة</th>
                 <th>الموعد</th>
                 <th>رابط الاجتماع (Zoom / Meet)</th>
@@ -226,8 +513,9 @@
       </div>
 
       <div class="grid-2">
+        <!-- إضافة درس مخزّن -->
         <div class="card">
-          <h3 style="margin-bottom: 14px;">إضافة درس مخزّن جديد</h3>
+          <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة درس مخزّن جديد</h3>
           <form id="addLessonForm">
             <div class="form-group">
               <label for="lessonGrade">الصف الدراسي</label>
@@ -238,27 +526,28 @@
               <input type="text" id="lessonTitle" placeholder="مثال: الوحدة الأولى - الدرس الأول" required />
             </div>
             <div class="form-group">
-              <label for="lessonVideoUrl">رابط الفيديو (MP4 أو Bunny Stream / VdoCipher)</label>
+              <label for="lessonVideoUrl">رابط الفيديو (MP4 أو رابط تضمين Bunny Stream / VdoCipher)</label>
               <input type="url" id="lessonVideoUrl" placeholder="https://..." required />
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ الدرس</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">حفظ الدرس في المكتبة</button>
           </form>
         </div>
 
+        <!-- إضافة / تحديث اشتراك طالب -->
         <div class="card">
-          <h3 style="margin-bottom: 14px;">إضافة أو تفعيل اشتراك طالب</h3>
+          <h3 style="font-weight: 800; margin-bottom: 14px;">إضافة أو تفعيل اشتراك طالب</h3>
           <form id="addStudentForm">
             <div class="form-group">
               <label for="studentName">اسم الطالب</label>
-              <input type="text" id="studentName" required />
+              <input type="text" id="studentName" placeholder="الاسم الثلاثي للطالب" required />
             </div>
             <div class="form-group">
-              <label for="studentPhone">رقم الهاتف</label>
-              <input type="text" id="studentPhone" required />
+              <label for="studentPhone">رقم الهاتف (لتسجيل الدخول)</label>
+              <input type="text" id="studentPhone" placeholder="01xxxxxxxxx" required />
             </div>
             <div class="form-group">
               <label for="studentPassword">كلمة المرور</label>
-              <input type="text" id="studentPassword" required />
+              <input type="text" id="studentPassword" placeholder="كلمة مرور للطالب" required />
             </div>
             <div class="grid-2" style="gap: 10px;">
               <div class="form-group">
@@ -266,33 +555,47 @@
                 <select id="studentGradeSelect" required></select>
               </div>
               <div class="form-group">
-                <label for="studentExpiryDate">ينتهي الاشتراك في</label>
+                <label for="studentExpiryDate">تاريخ انتهاء الاشتراك</label>
                 <input type="date" id="studentExpiryDate" required />
               </div>
             </div>
-            <button type="submit" class="btn btn-success" style="width: 100%;">حفظ الاشتراك</button>
+            <button type="submit" class="btn btn-success" style="width: 100%;">حفظ وتفعيل الاشتراك</button>
           </form>
         </div>
       </div>
 
+      <!-- قائمة الدروس المخزّنة -->
       <div class="card">
-        <h3 style="margin-bottom: 14px;">الدروس المخزّنة</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">الدروس المخزّنة</h3>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>الصف</th><th>عنوان الدرس</th><th>التاريخ</th><th>إجراء</th></tr>
+              <tr>
+                <th>الصف</th>
+                <th>عنوان الدرس</th>
+                <th>تاريخ الإضافة</th>
+                <th>إجراء</th>
+              </tr>
             </thead>
             <tbody id="adminLessonsTableBody"></tbody>
           </table>
         </div>
       </div>
 
+      <!-- قائمة الطلاب والاشتراكات -->
       <div class="card">
-        <h3 style="margin-bottom: 14px;">الطلاب والاشتراكات</h3>
+        <h3 style="font-weight: 800; margin-bottom: 14px;">الطلاب والاشتراكات</h3>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>الاسم</th><th>الهاتف</th><th>الصف</th><th>ينتهي في</th><th>الحالة</th><th>إجراءات</th></tr>
+              <tr>
+                <th>الاسم</th>
+                <th>رقم الهاتف</th>
+                <th>الصف</th>
+                <th>ينتهي في</th>
+                <th>الحالة</th>
+                <th>إجراءات</th>
+              </tr>
             </thead>
             <tbody id="adminStudentsTableBody"></tbody>
           </table>
@@ -301,10 +604,11 @@
     </section>
   </main>
 
+  <!-- نافذة تشغيل الدرس المخزّن -->
   <div class="modal-backdrop" id="videoModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modalLessonTitle" style="font-size: 1rem;">مشاهدة الدرس</h3>
+        <h3 id="modalLessonTitle" style="font-weight: 800; font-size: 1rem;">مشاهدة الدرس</h3>
         <button class="btn btn-outline btn-sm" id="closeModalBtn">إغلاق</button>
       </div>
       <div class="player-stage" id="playerStage">
@@ -313,9 +617,32 @@
     </div>
   </div>
 
-  <script>
-    var ADMIN_CREDENTIALS = { phone: "01000000000", password: "admin123", name: "إدارة المنصة" };
-    var GRADES = [
+  <!-- Firebase SDK (ES Modules) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore, collection, doc, getDocs, setDoc, deleteDoc, updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. ضع بيانات مشروع Firebase الخاص بك هنا لتفعيل قاعدة البيانات الحقيقية
+    // =========================================================================
+    const FIREBASE_CONFIG = {
+      apiKey: "PUT_YOUR_API_KEY_HERE",
+      authDomain: "PUT_YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "PUT_YOUR_PROJECT_ID",
+      storageBucket: "PUT_YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "PUT_YOUR_SENDER_ID",
+      appId: "PUT_YOUR_APP_ID"
+    };
+
+    const ADMIN_CREDENTIALS = {
+      phone: "01000000000",
+      password: "admin123",
+      name: "إدارة المنصة"
+    };
+
+    const GRADES = [
       { id: "g1", name: "الصف الأول الابتدائي" },
       { id: "g2", name: "الصف الثاني الابتدائي" },
       { id: "g3", name: "الصف الثالث الابتدائي" },
@@ -326,119 +653,285 @@
       { id: "p3", name: "الصف الثالث الإعدادي" }
     ];
 
-    var STORAGE_KEY = "edu_platform_clean_v2";
-    var state = { session: null, liveSessions: {}, lessons: [], students: [] };
+    const isFirebaseConfigured = !FIREBASE_CONFIG.apiKey.startsWith("PUT_YOUR_");
+    let db = null;
 
-    function getDatePlusDays(days) {
-      var d = new Date(Date.now() + days * 86400000);
+    if (isFirebaseConfigured) {
+      const app = initializeApp(FIREBASE_CONFIG);
+      db = getFirestore(app);
+    } else {
+      document.getElementById("firebaseConfigNotice").classList.remove("hidden");
+    }
+
+    // حالة التطبيق في الذاكرة
+    const state = {
+      session: null, // { role: 'admin' | 'student', user: ... }
+      liveSessions: {}, // { [gradeId]: { gradeId, title, schedule, meetingUrl, isLive } }
+      lessons: [],
+      students: []
+    };
+
+    const LOCAL_KEY = "edu_platform_8grades_v1";
+
+    function getDefaultDatePlusDays(days) {
+      const d = new Date(Date.now() + days * 86400000);
       return d.toISOString().split("T")[0];
     }
 
-    function initStorage() {
-      var saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        var data = JSON.parse(saved);
-        state.liveSessions = data.liveSessions || {};
-        state.lessons = data.lessons || [];
-        state.students = data.students || [];
-        return;
-      }
-      GRADES.forEach(function (g, i) {
-        state.liveSessions[g.id] = {
+    function seedInitialData() {
+      const liveSessions = {};
+      GRADES.forEach((g, idx) => {
+        liveSessions[g.id] = {
           gradeId: g.id,
-          title: "حصة مباشرة - " + g.name,
-          schedule: i < 5 ? "الأحد والثلاثاء - 5:00 مساءً" : "الاثنين والأربعاء - 7:00 مساءً",
+          title: `حصة مباشرة - ${g.name}`,
+          schedule: idx < 5 ? "الأحد والثلاثاء - 5:00 مساءً" : "الاثنين والأربعاء - 7:00 مساءً",
           meetingUrl: "https://zoom.us/j/1234567890",
-          isLive: i === 3
+          isLive: idx === 3
         };
       });
-      state.students = [{
-        name: "طالب تجريبي - رابعة ابتدائي",
-        phone: "01011112222",
-        password: "123",
-        gradeId: "g4",
-        expiresAt: getDatePlusDays(30),
-        isActive: true
-      }];
-      state.lessons = [{
-        id: "l1",
-        gradeId: "g4",
-        title: "الدرس الأول - مراجعة تمهيدية",
-        videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        createdAt: getDatePlusDays(0)
-      }];
-      saveStorage();
+
+      const students = [
+        {
+          id: "01011112222",
+          name: "طالب تجريبي - رابعة ابتدائي",
+          phone: "01011112222",
+          password: "123",
+          gradeId: "g4",
+          expiresAt: getDefaultDatePlusDays(25),
+          isActive: true
+        },
+        {
+          id: "01033334444",
+          name: "طالب تجريبي - تالتة إعدادي",
+          phone: "01033334444",
+          password: "123",
+          gradeId: "p3",
+          expiresAt: getDefaultDatePlusDays(-2),
+          isActive: true
+        }
+      ];
+
+      const lessons = [
+        {
+          id: "lesson_demo_1",
+          gradeId: "g4",
+          title: "مراجعة عامة على الوحدة الأولى - الجزء الأول",
+          videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+          createdAt: new Date().toISOString().split("T")[0]
+        }
+      ];
+
+      return { liveSessions, students, lessons };
     }
 
-    function saveStorage() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        liveSessions: state.liveSessions,
-        lessons: state.lessons,
-        students: state.students
-      }));
-    }
-
-    function getGradeName(id) {
-      var found = GRADES.find(function (g) { return g.id === id; });
-      return found ? found.name : id;
-    }
-
-    function isSubValid(student) {
-      if (!student || !student.isActive || !student.expiresAt) return false;
-      return student.expiresAt >= getDatePlusDays(0);
-    }
-
-    function renderApp() {
-      var topbar = document.getElementById("topbarActions");
-      document.getElementById("loginView").classList.add("hidden");
-      document.getElementById("studentView").classList.add("hidden");
-      document.getElementById("adminView").classList.add("hidden");
-
-      if (!state.session) {
-        topbar.innerHTML = "";
-        document.getElementById("loginView").classList.remove("hidden");
+    async function loadAllData() {
+      if (!isFirebaseConfigured) {
+        const saved = localStorage.getItem(LOCAL_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          state.liveSessions = parsed.liveSessions || {};
+          state.students = parsed.students || [];
+          state.lessons = parsed.lessons || [];
+          return;
+        }
+        const seeded = seedInitialData();
+        state.liveSessions = seeded.liveSessions;
+        state.students = seeded.students;
+        state.lessons = seeded.lessons;
+        saveLocal();
         return;
       }
 
-      topbar.innerHTML = '<span style="font-weight:bold;margin-left:10px;">' + state.session.user.name + '</span>' +
-        '<button class="btn btn-outline btn-sm" onclick="logout()">خروج</button>';
+      // قراءة البيانات من Firestore
+      const liveSnap = await getDocs(collection(db, "live_sessions"));
+      const liveMap = {};
+      GRADES.forEach(g => {
+        liveMap[g.id] = {
+          gradeId: g.id,
+          title: `حصة مباشرة - ${g.name}`,
+          schedule: "يُحدد عبر الجدول",
+          meetingUrl: "",
+          isLive: false
+        };
+      });
+      liveSnap.forEach(docSnap => {
+        liveMap[docSnap.id] = { gradeId: docSnap.id, ...docSnap.data() };
+      });
+      state.liveSessions = liveMap;
 
-      if (state.session.role === "admin") {
-        document.getElementById("adminView").classList.remove("hidden");
-        renderAdmin();
-      } else {
-        document.getElementById("studentView").classList.remove("hidden");
-        renderStudent();
+      const studentsSnap = await getDocs(collection(db, "students"));
+      state.students = studentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      const lessonsSnap = await getDocs(collection(db, "recorded_lessons"));
+      state.lessons = lessonsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+    }
+
+    function saveLocal() {
+      if (!isFirebaseConfigured) {
+        localStorage.setItem(LOCAL_KEY, JSON.stringify({
+          liveSessions: state.liveSessions,
+          students: state.students,
+          lessons: state.lessons
+        }));
       }
     }
 
-    window.logout = function () {
-      state.session = null;
-      renderApp();
-    };
+    async function saveLiveSession(gradeId, payload) {
+      state.liveSessions[gradeId] = { gradeId, ...payload };
+      if (isFirebaseConfigured) {
+        await setDoc(doc(db, "live_sessions", gradeId), state.liveSessions[gradeId]);
+      } else {
+        saveLocal();
+      }
+    }
 
-    function renderStudent() {
-      var student = state.students.find(function (s) { return s.phone === state.session.user.phone; }) || state.session.user;
-      var valid = isSubValid(student);
-      document.getElementById("studentGreeting").textContent = "مرحباً، " + student.name;
-      document.getElementById("studentGradeLabel").textContent = "الصف: " + getGradeName(student.gradeId);
-      document.getElementById("studentExpiryLabel").textContent = "ينتهي في: " + student.expiresAt;
+    async function addLesson(payload) {
+      const id = "lesson_" + Date.now();
+      const item = { id, ...payload };
+      state.lessons.unshift(item);
+      if (isFirebaseConfigured) {
+        await setDoc(doc(db, "recorded_lessons", id), item);
+      } else {
+        saveLocal();
+      }
+    }
 
-      var badge = document.getElementById("studentSubBadge");
-      badge.className = "status-pill " + (valid ? "pill-active" : "pill-expired");
-      badge.textContent = valid ? "اشتراك نشط" : "اشتراك منتهي";
+    async function removeLesson(id) {
+      state.lessons = state.lessons.filter(l => l.id !== id);
+      if (isFirebaseConfigured) {
+        await deleteDoc(doc(db, "recorded_lessons", id));
+      } else {
+        saveLocal();
+      }
+    }
+
+    async function upsertStudent(payload) {
+      const cleanPhone = payload.phone.trim();
+      const studentObj = {
+        id: cleanPhone,
+        name: payload.name.trim(),
+        phone: cleanPhone,
+        password: payload.password,
+        gradeId: payload.gradeId,
+        expiresAt: payload.expiresAt,
+        isActive: true
+      };
+      const idx = state.students.findIndex(s => s.phone === cleanPhone);
+      if (idx >= 0) state.students[idx] = studentObj;
+      else state.students.unshift(studentObj);
+
+      if (isFirebaseConfigured) {
+        await setDoc(doc(db, "students", cleanPhone), studentObj);
+      } else {
+        saveLocal();
+      }
+    }
+
+    async function toggleStudentActive(phone) {
+      const student = state.students.find(s => s.phone === phone);
+      if (!student) return;
+      student.isActive = !student.isActive;
+      if (isFirebaseConfigured) {
+        await updateDoc(doc(db, "students", phone), { isActive: student.isActive });
+      } else {
+        saveLocal();
+      }
+    }
+
+    async function renewStudentMonth(phone) {
+      const student = state.students.find(s => s.phone === phone);
+      if (!student) return;
+      const baseDate = student.expiresAt && new Date(student.expiresAt) > new Date()
+        ? new Date(student.expiresAt)
+        : new Date();
+      baseDate.setDate(baseDate.getDate() + 30);
+      student.expiresAt = baseDate.toISOString().split("T")[0];
+      student.isActive = true;
+      if (isFirebaseConfigured) {
+        await updateDoc(doc(db, "students", phone), {
+          expiresAt: student.expiresAt,
+          isActive: true
+        });
+      } else {
+        saveLocal();
+      }
+    }
+
+    function getGradeName(gradeId) {
+      return GRADES.find(g => g.id === gradeId)?.name || gradeId;
+    }
+
+    function isSubscriptionValid(student) {
+      if (!student || !student.isActive || !student.expiresAt) return false;
+      const today = new Date().toISOString().split("T")[0];
+      return student.expiresAt >= today;
+    }
+
+    // عناصر الواجهة
+    const loginView = document.getElementById("loginView");
+    const studentView = document.getElementById("studentView");
+    const adminView = document.getElementById("adminView");
+    const topbarActions = document.getElementById("topbarActions");
+    const loginError = document.getElementById("loginError");
+
+    function populateGradeSelects() {
+      const filterSelect = document.getElementById("adminGradeFilter");
+      const lessonGradeSelect = document.getElementById("lessonGrade");
+      const studentGradeSelect = document.getElementById("studentGradeSelect");
+
+      filterSelect.innerHTML = `<option value="ALL">كل الصفوف الثمانية</option>` +
+        GRADES.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
+
+      const gradeOptions = GRADES.map(g => `<option value="${g.id}">${g.name}</option>`).join("");
+      lessonGradeSelect.innerHTML = gradeOptions;
+      studentGradeSelect.innerHTML = gradeOptions;
+      document.getElementById("studentExpiryDate").value = getDefaultDatePlusDays(30);
+    }
+
+    function renderTopbar() {
+      if (!state.session) {
+        topbarActions.innerHTML = "";
+        return;
+      }
+      topbarActions.innerHTML = `
+        <span style="font-size: 0.88rem; font-weight: 700;">${state.session.user.name}</span>
+        <button class="btn btn-outline btn-sm" id="logoutBtn">تسجيل خروج</button>
+      `;
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        state.session = null;
+        renderApp();
+      });
+    }
+
+    function renderStudentView() {
+      // تحديث بيانات الطالب من أحدث حالة محفوظة
+      const freshStudent = state.students.find(s => s.phone === state.session.user.phone) || state.session.user;
+      state.session.user = freshStudent;
+
+      const valid = isSubscriptionValid(freshStudent);
+      document.getElementById("studentGreeting").textContent = `مرحباً، ${freshStudent.name}`;
+      document.getElementById("studentGradeLabel").textContent = `الصف الدراسي: ${getGradeName(freshStudent.gradeId)}`;
+      document.getElementById("studentExpiryLabel").textContent = `ينتهي الاشتراك في: ${freshStudent.expiresAt || "غير محدد"}`;
+
+      const badge = document.getElementById("studentSubBadge");
+      badge.className = `status-pill ${valid ? "pill-active" : "pill-expired"}`;
+      badge.textContent = valid ? "اشتراك نشط" : "اشتراك منتهي / موقوف";
+
       document.getElementById("expiredSubscriptionAlert").classList.toggle("hidden", valid);
 
-      var live = state.liveSessions[student.gradeId] || {};
-      var liveBadge = document.getElementById("liveStatusBadge");
-      liveBadge.className = "status-pill " + (live.isLive ? "pill-live" : "pill-offline");
-      liveBadge.textContent = live.isLive ? "بث مباشر الآن" : "غير مباشر حالياً";
-      document.getElementById("liveTitleText").textContent = live.title || "";
-      document.getElementById("liveScheduleText").textContent = "الموعد: " + (live.schedule || "");
+      // تبويب اللايف
+      const live = state.liveSessions[freshStudent.gradeId] || {};
+      const liveBadge = document.getElementById("liveStatusBadge");
+      liveBadge.className = `status-pill ${live.isLive ? "pill-live" : "pill-offline"}`;
+      liveBadge.textContent = live.isLive ? "بث مباشر الآن" : "لا يوجد بث نشط حالياً";
 
-      var joinBtn = document.getElementById("joinLiveBtn");
+      document.getElementById("liveTitleText").textContent = live.title || `حصة ${getGradeName(freshStudent.gradeId)}`;
+      document.getElementById("liveScheduleText").textContent = `الموعد: ${live.schedule || "لم يُحدد"}`;
+
+      const joinBtn = document.getElementById("joinLiveBtn");
       if (valid && live.meetingUrl) {
         joinBtn.href = live.meetingUrl;
+        joinBtn.classList.remove("disabled");
         joinBtn.style.pointerEvents = "auto";
         joinBtn.style.opacity = "1";
       } else {
@@ -447,192 +940,287 @@
         joinBtn.style.opacity = "0.5";
       }
 
-      var listEl = document.getElementById("studentLessonsList");
+      // تبويب الدروس المخزّنة
+      const gradeLessons = state.lessons.filter(l => l.gradeId === freshStudent.gradeId);
+      const listEl = document.getElementById("studentLessonsList");
+
       if (!valid) {
-        listEl.innerHTML = "<p>يرجى تجديد الاشتراك لمشاهدة الدروس.</p>";
+        listEl.innerHTML = `<p style="color: var(--muted);">الدروس المخزّنة متاحة للمشتركين ذوي الاشتراك النشط فقط.</p>`;
         return;
       }
-      var gradeLessons = state.lessons.filter(function (l) { return l.gradeId === student.gradeId; });
-      if (!gradeLessons.length) {
-        listEl.innerHTML = "<p>لا توجد دروس مخزّنة لهذا الصف حالياً.</p>";
+
+      if (gradeLessons.length === 0) {
+        listEl.innerHTML = `<p style="color: var(--muted);">لا توجد دروس مخزّنة لهذا الصف حالياً.</p>`;
         return;
       }
-      listEl.innerHTML = gradeLessons.map(function (l) {
-        return '<div class="lesson-card"><div><strong>' + l.title + '</strong><div style="font-size:0.8rem;color:#64748b;">' + l.createdAt + '</div></div>' +
-          '<button class="btn btn-primary btn-sm" onclick="openLesson(\'' + l.id + '\')">مشاهدة الدرس</button></div>';
-      }).join("");
+
+      listEl.innerHTML = gradeLessons.map(lesson => `
+        <div class="lesson-card">
+          <div>
+            <div style="font-weight: 800; margin-bottom: 6px;">${lesson.title}</div>
+            <div class="lesson-meta">تاريخ الإضافة: ${lesson.createdAt || ""}</div>
+          </div>
+          <button class="btn btn-primary btn-sm watch-lesson-btn" data-id="${lesson.id}">
+            مشاهدة الدرس
+          </button>
+        </div>
+      `).join("");
+
+      listEl.querySelectorAll(".watch-lesson-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const lesson = gradeLessons.find(item => item.id === btn.dataset.id);
+          if (lesson) openVideoModal(lesson, freshStudent);
+        });
+      });
     }
 
-    window.openLesson = function (id) {
-      var lesson = state.lessons.find(function (l) { return l.id === id; });
-      if (!lesson) return;
-      var stage = document.getElementById("playerStage");
+    function openVideoModal(lesson, student) {
+      const modal = document.getElementById("videoModal");
+      const stage = document.getElementById("playerStage");
+      const watermark = document.getElementById("videoWatermark");
+
       document.getElementById("modalLessonTitle").textContent = lesson.title;
-      document.getElementById("videoWatermark").textContent = state.session.user.name + " | " + state.session.user.phone;
-      stage.querySelectorAll("video, iframe").forEach(function (el) { el.remove(); });
+      watermark.textContent = `${student.name} | ${student.phone}`;
 
-      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(lesson.videoUrl)) {
-        var v = document.createElement("video");
-        v.src = lesson.videoUrl; v.controls = true; v.autoplay = true;
-        stage.prepend(v);
+      // إزالة أي مشغل سابق مع الإبقاء على العلامة المائية
+      stage.querySelectorAll("video, iframe").forEach(el => el.remove());
+
+      const isDirectVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(lesson.videoUrl);
+      if (isDirectVideo) {
+        const video = document.createElement("video");
+        video.src = lesson.videoUrl;
+        video.controls = true;
+        video.autoplay = true;
+        video.controlsList = "nodownload";
+        stage.prepend(video);
       } else {
-        var f = document.createElement("iframe");
-        f.src = lesson.videoUrl; f.allowFullscreen = true;
-        stage.prepend(f);
+        const iframe = document.createElement("iframe");
+        iframe.src = lesson.videoUrl;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        iframe.allowFullscreen = true;
+        stage.prepend(iframe);
       }
-      document.getElementById("videoModal").classList.add("open");
-    };
 
-    function renderAdmin() {
-      var filter = document.getElementById("adminGradeFilter").value;
-      var targetGrades = filter === "ALL" ? GRADES : GRADES.filter(function (g) { return g.id === filter; });
-
-      document.getElementById("adminLiveTableBody").innerHTML = targetGrades.map(function (g) {
-        var s = state.liveSessions[g.id] || {};
-        return '<tr><td><strong>' + g.name + '</strong></td>' +
-          '<td><input id="lt_' + g.id + '" value="' + (s.title || "") + '"></td>' +
-          '<td><input id="ls_' + g.id + '" value="' + (s.schedule || "") + '"></td>' +
-          '<td><input id="lu_' + g.id + '" value="' + (s.meetingUrl || "") + '"></td>' +
-          '<td><select id="li_' + g.id + '"><option value="true" ' + (s.isLive ? "selected" : "") + '>مباشر</option><option value="false" ' + (!s.isLive ? "selected" : "") + '>مغلق</option></select></td>' +
-          '<td><button class="btn btn-primary btn-sm" onclick="saveLive(\'' + g.id + '\')">حفظ</button></td></tr>';
-      }).join("");
-
-      var lessons = filter === "ALL" ? state.lessons : state.lessons.filter(function (l) { return l.gradeId === filter; });
-      document.getElementById("adminLessonsTableBody").innerHTML = lessons.map(function (l) {
-        return '<tr><td>' + getGradeName(l.gradeId) + '</td><td>' + l.title + '</td><td>' + l.createdAt + '</td>' +
-          '<td><button class="btn btn-danger btn-sm" onclick="delLesson(\'' + l.id + '\')">حذف</button></td></tr>';
-      }).join("");
-
-      var students = filter === "ALL" ? state.students : state.students.filter(function (s) { return s.gradeId === filter; });
-      document.getElementById("adminStudentsTableBody").innerHTML = students.map(function (s) {
-        var valid = isSubValid(s);
-        return '<tr><td>' + s.name + '</td><td>' + s.phone + '</td><td>' + getGradeName(s.gradeId) + '</td><td>' + s.expiresAt + '</td>' +
-          '<td><span class="status-pill ' + (valid ? "pill-active" : "pill-expired") + '">' + (valid ? "نشط" : "منتهي") + '</span></td>' +
-          '<td><button class="btn btn-success btn-sm" onclick="renewSub(\'' + s.phone + '\')">+30 يوم</button> ' +
-          '<button class="btn btn-outline btn-sm" onclick="toggleSub(\'' + s.phone + '\')">' + (s.isActive ? "إيقاف" : "تفعيل") + '</button></td></tr>';
-      }).join("");
+      modal.classList.add("open");
     }
 
-    window.saveLive = function (gid) {
-      state.liveSessions[gid] = {
-        gradeId: gid,
-        title: document.getElementById("lt_" + gid).value,
-        schedule: document.getElementById("ls_" + gid).value,
-        meetingUrl: document.getElementById("lu_" + gid).value,
-        isLive: document.getElementById("li_" + gid).value === "true"
-      };
-      saveStorage();
-      alert("تم حفظ بيانات اللايف بنجاح");
-    };
+    function closeVideoModal() {
+      const modal = document.getElementById("videoModal");
+      const stage = document.getElementById("playerStage");
+      modal.classList.remove("open");
+      stage.querySelectorAll("video, iframe").forEach(el => el.remove());
+    }
 
-    window.delLesson = function (id) {
-      state.lessons = state.lessons.filter(function (l) { return l.id !== id; });
-      saveStorage();
-      renderAdmin();
-    };
+    function renderAdminView() {
+      const selectedFilter = document.getElementById("adminGradeFilter").value;
+      const targetGrades = selectedFilter === "ALL"
+        ? GRADES
+        : GRADES.filter(g => g.id === selectedFilter);
 
-    window.renewSub = function (phone) {
-      var s = state.students.find(function (x) { return x.phone === phone; });
-      if (!s) return;
-      s.expiresAt = getDatePlusDays(30);
-      s.isActive = true;
-      saveStorage();
-      renderAdmin();
-    };
+      // جدول اللايف
+      const liveBody = document.getElementById("adminLiveTableBody");
+      liveBody.innerHTML = targetGrades.map(g => {
+        const session = state.liveSessions[g.id] || { title: "", schedule: "", meetingUrl: "", isLive: false };
+        return `
+          <tr data-grade="${g.id}">
+            <td><strong>${g.name}</strong></td>
+            <td><input type="text" class="live-title-input" value="${session.title || ""}" /></td>
+            <td><input type="text" class="live-schedule-input" value="${session.schedule || ""}" /></td>
+            <td><input type="url" class="live-url-input" value="${session.meetingUrl || ""}" placeholder="https://zoom.us/j/..." /></td>
+            <td>
+              <select class="live-status-select">
+                <option value="true" ${session.isLive ? "selected" : ""}>مباشر الآن</option>
+                <option value="false" ${!session.isLive ? "selected" : ""}>غير مباشر</option>
+              </select>
+            </td>
+            <td><button class="btn btn-primary btn-sm save-live-btn">حفظ</button></td>
+          </tr>
+        `;
+      }).join("");
 
-    window.toggleSub = function (phone) {
-      var s = state.students.find(function (x) { return x.phone === phone; });
-      if (!s) return;
-      s.isActive = !s.isActive;
-      saveStorage();
-      renderAdmin();
-    };
+      liveBody.querySelectorAll(".save-live-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const row = btn.closest("tr");
+          const gradeId = row.dataset.grade;
+          btn.disabled = true;
+          btn.textContent = "جاري الحفظ...";
+          await saveLiveSession(gradeId, {
+            title: row.querySelector(".live-title-input").value.trim(),
+            schedule: row.querySelector(".live-schedule-input").value.trim(),
+            meetingUrl: row.querySelector(".live-url-input").value.trim(),
+            isLive: row.querySelector(".live-status-select").value === "true"
+          });
+          btn.disabled = false;
+          btn.textContent = "تم الحفظ ✓";
+          setTimeout(() => (btn.textContent = "حفظ"), 1500);
+        });
+      });
 
-    document.getElementById("loginForm").onsubmit = function (e) {
+      // جدول الدروس المخزّنة
+      const filteredLessons = selectedFilter === "ALL"
+        ? state.lessons
+        : state.lessons.filter(l => l.gradeId === selectedFilter);
+
+      const lessonsBody = document.getElementById("adminLessonsTableBody");
+      lessonsBody.innerHTML = filteredLessons.length === 0
+        ? `<tr><td colspan="4" style="color: var(--muted); text-align: center;">لا توجد دروس مسجلة.</td></tr>`
+        : filteredLessons.map(l => `
+          <tr>
+            <td>${getGradeName(l.gradeId)}</td>
+            <td><strong>${l.title}</strong></td>
+            <td>${l.createdAt || ""}</td>
+            <td><button class="btn btn-danger btn-sm del-lesson-btn" data-id="${l.id}">حذف</button></td>
+          </tr>
+        `).join("");
+
+      lessonsBody.querySelectorAll(".del-lesson-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          await removeLesson(btn.dataset.id);
+          renderAdminView();
+        });
+      });
+
+      // جدول الطلاب
+      const filteredStudents = selectedFilter === "ALL"
+        ? state.students
+        : state.students.filter(s => s.gradeId === selectedFilter);
+
+      const studentsBody = document.getElementById("adminStudentsTableBody");
+      studentsBody.innerHTML = filteredStudents.length === 0
+        ? `<tr><td colspan="6" style="color: var(--muted); text-align: center;">لا يوجد طلاب مسجلون بعد.</td></tr>`
+        : filteredStudents.map(s => {
+          const valid = isSubscriptionValid(s);
+          return `
+            <tr>
+              <td><strong>${s.name}</strong></td>
+              <td>${s.phone}</td>
+              <td>${getGradeName(s.gradeId)}</td>
+              <td>${s.expiresAt || ""}</td>
+              <td>
+                <span class="status-pill ${valid ? "pill-active" : "pill-expired"}">
+                  ${valid ? "نشط" : "منتهي/موقوف"}
+                </span>
+              </td>
+              <td style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button class="btn btn-success btn-sm renew-sub-btn" data-phone="${s.phone}">+30 يوم</button>
+                <button class="btn btn-outline btn-sm toggle-sub-btn" data-phone="${s.phone}">
+                  ${s.isActive ? "إيقاف" : "تفعيل"}
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join("");
+
+      studentsBody.querySelectorAll(".renew-sub-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          await renewStudentMonth(btn.dataset.phone);
+          renderAdminView();
+        });
+      });
+
+      studentsBody.querySelectorAll(".toggle-sub-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          await toggleStudentActive(btn.dataset.phone);
+          renderAdminView();
+        });
+      });
+    }
+
+    function renderApp() {
+      renderTopbar();
+      loginView.classList.add("hidden");
+      studentView.classList.add("hidden");
+      adminView.classList.add("hidden");
+
+      if (!state.session) {
+        loginView.classList.remove("hidden");
+        return;
+      }
+
+      if (state.session.role === "admin") {
+        adminView.classList.remove("hidden");
+        renderAdminView();
+      } else {
+        studentView.classList.remove("hidden");
+        renderStudentView();
+      }
+    }
+
+    // أحداث النماذج والتبويبات
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      var phone = document.getElementById("loginPhone").value.trim();
-      var pass = document.getElementById("loginPassword").value;
-      var err = document.getElementById("loginError");
-      err.classList.add("hidden");
+      loginError.classList.add("hidden");
 
-      if (phone === ADMIN_CREDENTIALS.phone && pass === ADMIN_CREDENTIALS.password) {
+      const phone = document.getElementById("loginPhone").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      if (phone === ADMIN_CREDENTIALS.phone && password === ADMIN_CREDENTIALS.password) {
         state.session = { role: "admin", user: ADMIN_CREDENTIALS };
         renderApp();
         return;
       }
-      var st = state.students.find(function (s) { return s.phone === phone && s.password === pass; });
-      if (st) {
-        state.session = { role: "student", user: st };
+
+      const student = state.students.find(s => s.phone === phone && s.password === password);
+      if (student) {
+        state.session = { role: "student", user: student };
         renderApp();
         return;
       }
-      err.textContent = "بيانات الدخول غير صحيحة.";
-      err.classList.remove("hidden");
-    };
 
-    document.getElementById("tabLiveBtn").onclick = function () {
-      this.classList.add("active");
+      loginError.textContent = "رقم الهاتف أو كلمة المرور غير صحيحة.";
+      loginError.classList.remove("hidden");
+    });
+
+    document.getElementById("tabLiveBtn").addEventListener("click", () => {
+      document.getElementById("tabLiveBtn").classList.add("active");
       document.getElementById("tabLessonsBtn").classList.remove("active");
       document.getElementById("studentLivePanel").classList.remove("hidden");
       document.getElementById("studentLessonsPanel").classList.add("hidden");
-    };
+    });
 
-    document.getElementById("tabLessonsBtn").onclick = function () {
-      this.classList.add("active");
+    document.getElementById("tabLessonsBtn").addEventListener("click", () => {
+      document.getElementById("tabLessonsBtn").classList.add("active");
       document.getElementById("tabLiveBtn").classList.remove("active");
       document.getElementById("studentLessonsPanel").classList.remove("hidden");
       document.getElementById("studentLivePanel").classList.add("hidden");
-    };
+    });
 
-    document.getElementById("addLessonForm").onsubmit = function (e) {
+    document.getElementById("addLessonForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      state.lessons.unshift({
-        id: "l_" + Date.now(),
+      await addLesson({
         gradeId: document.getElementById("lessonGrade").value,
-        title: document.getElementById("lessonTitle").value,
-        videoUrl: document.getElementById("lessonVideoUrl").value,
-        createdAt: getDatePlusDays(0)
+        title: document.getElementById("lessonTitle").value.trim(),
+        videoUrl: document.getElementById("lessonVideoUrl").value.trim(),
+        createdAt: new Date().toISOString().split("T")[0]
       });
-      saveStorage();
       e.target.reset();
-      renderAdmin();
-    };
+      renderAdminView();
+    });
 
-    document.getElementById("addStudentForm").onsubmit = function (e) {
+    document.getElementById("addStudentForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      var phone = document.getElementById("studentPhone").value.trim();
-      var obj = {
-        name: document.getElementById("studentName").value,
-        phone: phone,
+      await upsertStudent({
+        name: document.getElementById("studentName").value.trim(),
+        phone: document.getElementById("studentPhone").value.trim(),
         password: document.getElementById("studentPassword").value,
         gradeId: document.getElementById("studentGradeSelect").value,
-        expiresAt: document.getElementById("studentExpiryDate").value,
-        isActive: true
-      };
-      var idx = state.students.findIndex(function (s) { return s.phone === phone; });
-      if (idx >= 0) state.students[idx] = obj;
-      else state.students.unshift(obj);
-      saveStorage();
+        expiresAt: document.getElementById("studentExpiryDate").value
+      });
       e.target.reset();
-      document.getElementById("studentExpiryDate").value = getDatePlusDays(30);
-      renderAdmin();
-    };
+      document.getElementById("studentExpiryDate").value = getDefaultDatePlusDays(30);
+      renderAdminView();
+    });
 
-    document.getElementById("adminGradeFilter").onchange = renderAdmin;
-    document.getElementById("closeModalBtn").onclick = function () {
-      document.getElementById("videoModal").classList.remove("open");
-      document.getElementById("playerStage").querySelectorAll("video, iframe").forEach(function (el) { el.remove(); });
-    };
+    document.getElementById("adminGradeFilter").addEventListener("change", renderAdminView);
+    document.getElementById("closeModalBtn").addEventListener("click", closeVideoModal);
+    document.getElementById("videoModal").addEventListener("click", (e) => {
+      if (e.target.id === "videoModal") closeVideoModal();
+    });
 
-    (function start() {
-      var opts = GRADES.map(function (g) { return '<option value="' + g.id + '">' + g.name + '</option>'; }).join("");
-      document.getElementById("adminGradeFilter").innerHTML = '<option value="ALL">كل الصفوف</option>' + opts;
-      document.getElementById("lessonGrade").innerHTML = opts;
-      document.getElementById("studentGradeSelect").innerHTML = opts;
-      document.getElementById("studentExpiryDate").value = getDatePlusDays(30);
-      initStorage();
-      renderApp();
-    })();
+    // بدء التشغيل
+    populateGradeSelects();
+    await loadAllData();
+    renderApp();
   </script>
 </body>
 </html>
