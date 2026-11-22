@@ -1299,7 +1299,7 @@
 
         <!-- خيارات الدفع وواتساب وملحوظة التفعيل -->
         <div class="payment-box">
-          <div style="font-weight: 900; font-size: 1rem;">خيارات الدفع والاشتراك </div>
+          <div style="font-weight: 900; font-size: 1rem;">خيارات الدفع والاشتراك — الدفع عن طريق فودافون كاش</div>
           <div class="payment-methods-row">
             <div class="payment-chip">
               <span>فودافون كاش:</span>
@@ -1679,6 +1679,7 @@
                 <th>الصف</th>
                 <th>العنوان</th>
                 <th style="min-width: 390px;">اشتراكات المواد والتحكم بكل مادة</th>
+                <th>حذف الحساب</th>
               </tr>
             </thead>
             <tbody id="adminStudentsTableBody"></tbody>
@@ -1808,7 +1809,9 @@
     }
 
     function getSubjectName(subjectId) {
-      return state.subjects.find(s => s.id === subjectId)?.name || DEFAULT_SUBJECTS.find(s => s.id === subjectId)?.name || ((subjectId || "").toLowerCase() === "arabic" ? "اللغة العربية" : subjectId);
+      return state.subjects.find(s => s.id === subjectId)?.name
+        || DEFAULT_SUBJECTS.find(s => s.id === subjectId)?.name
+        || ((subjectId || "").toLowerCase() === "arabic" ? "اللغة العربية" : subjectId);
     }
 
     function ensureStudentSubjectsModel(student) {
@@ -2309,6 +2312,20 @@
       }
     }
 
+    async function deleteStudent(phone) {
+      if (!phone) return;
+      state.students = state.students.filter(s => s.phone !== phone);
+      if (isFirebaseConfigured) {
+        await deleteDoc(doc(db, "students", phone));
+      } else {
+        saveLocal();
+      }
+      if (state.session?.role === "student" && state.session.user?.phone === phone) {
+        state.session = null;
+        saveSession(null);
+      }
+    }
+
     function getGradeName(gradeId) {
       if (gradeId === "ALL") return "كل الصفوف";
       return GRADES.find(g => g.id === gradeId)?.name || gradeId;
@@ -2788,7 +2805,7 @@
 
       const studentsBody = document.getElementById("adminStudentsTableBody");
       studentsBody.innerHTML = filteredStudents.length === 0
-        ? `<tr><td colspan="6" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
+        ? `<tr><td colspan="7" style="color: var(--muted);">لا يوجد طلاب مسجلون.</td></tr>`
         : filteredStudents.map(st => {
           const subjectKeys = Object.keys(st.subjects);
           const subjectsRowsHtml = subjectKeys.map(sid => {
@@ -2825,6 +2842,11 @@
               <td>${getGradeName(st.gradeId)}</td>
               <td>${st.address || "-"}</td>
               <td>${subjectsRowsHtml}</td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm delete-student-btn" data-phone="${st.phone}" data-name="${st.name}">
+                  حذف الحساب
+                </button>
+              </td>
             </tr>
           `;
         }).join("");
@@ -2839,6 +2861,17 @@
       studentsBody.querySelectorAll(".toggle-btn").forEach(btn => {
         btn.addEventListener("click", async () => {
           await toggleStudentSubjectActive(btn.dataset.phone, btn.dataset.subj);
+          renderAdminView();
+        });
+      });
+
+      studentsBody.querySelectorAll(".delete-student-btn").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const phone = btn.dataset.phone;
+          const name = btn.dataset.name || phone;
+          const ok = confirm(`هل أنت متأكد من حذف حساب الطالب (${name}) نهائياً؟`);
+          if (!ok) return;
+          await deleteStudent(phone);
           renderAdminView();
         });
       });
