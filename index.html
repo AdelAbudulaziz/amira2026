@@ -2515,7 +2515,7 @@
       }).join("");
 
       const tabsEl = document.getElementById("studentSubjectTabs");
-      const allTabSubjects = Array.from(new Set([...enrolledIds, ...state.subjects.map(s => s.id)]));
+      const allTabSubjects = enrolledIds;
       tabsEl.innerHTML = allTabSubjects.map(sid => {
         const isSelected = sid === state.activeStudentSubjectId;
         const active = isSubjectSubscriptionValid(freshStudent, sid);
