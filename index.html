@@ -1299,7 +1299,7 @@
 
         <!-- خيارات الدفع وواتساب وملحوظة التفعيل -->
         <div class="payment-box">
-          <div style="font-weight: 900; font-size: 1rem;">خيارات الدفع والاشتراك</div>
+          <div style="font-weight: 900; font-size: 1rem;">خيارات الدفع والاشتراك </div>
           <div class="payment-methods-row">
             <div class="payment-chip">
               <span>فودافون كاش:</span>
@@ -1808,7 +1808,7 @@
     }
 
     function getSubjectName(subjectId) {
-      return state.subjects.find(s => s.id === subjectId)?.name || subjectId;
+      return state.subjects.find(s => s.id === subjectId)?.name || DEFAULT_SUBJECTS.find(s => s.id === subjectId)?.name || ((subjectId || "").toLowerCase() === "arabic" ? "اللغة العربية" : subjectId);
     }
 
     function ensureStudentSubjectsModel(student) {
